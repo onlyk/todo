@@ -1,0 +1,18 @@
+{
+    "autoload": {
+        "psr-4": {"App\\": "src/"}
+    },
+    "files": [
+        "src/app.php"
+    ],
+    "name": "skurt/todo",
+    "authors": [
+        {
+            "name": "skurt arseniy",
+            "email": "skurtars@gmail.com"
+        }
+    ],
+    "require": {
+        "aura/router": "^3.1"
+    }
+}
