@@ -1,10 +1,10 @@
 {
     "autoload": {
-        "psr-4": {"App\\": "src/"}
+        "psr-4": {
+        "todo\\": "src"
+        }
     },
-    "files": [
-        "src/app.php"
-    ],
+
     "name": "skurt/todo",
     "authors": [
         {
