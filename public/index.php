@@ -1,46 +1,84 @@
 <?php
 
-namespace todo;
 require __DIR__ . '/../vendor/autoload.php';
 
-$opt = array(
-	\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION
+// Вот тут понимаю, имплементация пср-7 интерфейса
+
+$request = Zend\Diactoros\ServerRequestFactory::fromGlobals(
+    $_SERVER,
+    $_GET,
+    $_POST,
+    $_COOKIE,
+    $_FILES
 );
 
-$pdo = new \PDO('pgsql:host=localhost;port=5432;dbname=todo;', "postgres", "misamisa", $opt);
+// тут не до конца понимаю, контейнер для роутера, но видимо это для работы либы
+$routerContainer = new Aura\Router\RouterContainer();
+$map = $routerContainer->getMap();
 
-// $result = $pdo->query("SELECT * FROM tasks")->fetchAll(\PDO::FETCH_ASSOC);
+// вот тут понимаю, добавляю пути на карту 
+$map->get('tasks', '/tasks', function ($request){
+	$task = new todo\Task();
+    $response = new Zend\Diactoros\Response();
+    $response->getBody()->write($task->returnAllTasks($pdo));
+    return $response;
+});
 
+$map->post('task.create', '/tasks', function ($request) {
+	$name = $request->getQueryParams()['name'];
+	$body = $request->getQueryParams()['body'];
+	$task = new todo\Task();
+    $response = new Zend\Diactoros\Response();
+    $response->getBody()->write($task->createTask($name, $body));
+    return $response;
+});
 
+$map->post('task.done', '/tasks/{id}/markdone', function ($request) {
+	$id = $request->getAttribute('id');
+	$task = new todo\Task();
+    $response = new Zend\Diactoros\Response();
+    $response->getBody()->write($task->markDone($id));
+    return $response;
+});
 
-switch ($_SERVER['PATH_INFO']) {
-	case '':
-		$task = new Task($pdo);
-		$task->returnAllTasks($pdo);
-		break;
-	case '/task/create':
-		$name = $_GET['name'];
-		$body = $_GET['body'];
+$map->delete('task.delete', '/tasks/{id}', function ($request) {
+	$id = $request->getAttribute('id');
+	$task = new todo\Task($pdo);
+    $response = new Zend\Diactoros\Response();
+    $response->getBody()->write($task->deleteTask($id));
+    return $response;
+});
 
-		$task = new Task($pdo);
-		$task->createTask($name, $body);
-		break;
-	case '/task/markdone':
-		$id = $_GET['id'];
-		$task = new Task($pdo);
-		$task->markDone($id);
-		break;
-	case '/task/delete':
-		$id = $_GET['id'];
-		$task = new Task($pdo);
-		$task->deleteTask($id);
-		break;
-	default:
-		echo 404;
-		break;
+// объект для сравнения путей и запроса
+$matcher = $routerContainer->getMatcher();
+
+// .. and try to match the request to a route.
+$route = $matcher->match($request);
+if (! $route) {
+    echo "No route found for the request.";
+    exit;
 }
 
+// Насколько я понял, в $request записываем все что получили в $route, но уже согласно psr-7
+foreach ($route->attributes as $key => $val) {
+    $request = $request->withAttribute($key, $val);
+}
 
-// $stmt = $pdo->prepare('Some sql here');
-// $stmt->execute(['someParam1' => 13, 'someParam2' => 42]);
-// $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+// дальше мне не ясно.
+
+// dispatch the request to the route handler.
+// (consider using https://github.com/auraphp/Aura.Dispatcher
+// in place of the one callable below.)
+$callable = $route->handler;
+$response = $callable($request, $response);
+
+// emit the response
+foreach ($response->getHeaders() as $name => $values) {
+    foreach ($values as $value) {
+        header(sprintf('%s: %s', $name, $value), false);
+    }
+}
+
+echo $response->getBody();
+
+
