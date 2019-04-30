@@ -17,15 +17,21 @@ class Task
 		$this->body = $body;
 		$this->status = $status;
 	}
-
-	public function fromDB()
+	
+	public function __toString()
 	{
-
+		return $this->id . ": " .$this->name . ": " . $this->body . ": ". $this->status;
 	}
 
-	public function new()
+	public function fromDB($id)
 	{
-
+		$repo = new TaskRepository();
+		$task = $repo->find($id);
+		$id = $id;
+		$name = $task['name'];
+		$body = $task['body'];
+		$status = $task['status'];
+		return new Task($id, $name, $body, $status);
 	}
 
 	public function updateBody($body)
@@ -47,14 +53,10 @@ class Task
 	{
 
 	}
-	public function getName()
-	{
-		return $this->name;
-	}
-	public function getBody()
-	{
-		return $this->body;
-	}
+	public function getName() { return $this->name; }
+	public function getBody() { return $this->body; }
+	public function getId() { return $this->id; }
+	public function getStatus() { return $this->status; }
 }
 
 // Создать новую задачу 

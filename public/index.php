@@ -5,6 +5,8 @@ require __DIR__ . '/../vendor/autoload.php';
 use App\Task;
 use App\TaskService;
 use App\Config;
+
+use Zend\Diactoros\Response;
 // Вот тут понимаю, имплементация пср-7 интерфейса
 
 $request = Zend\Diactoros\ServerRequestFactory::fromGlobals(
@@ -26,11 +28,16 @@ $map = $routerContainer->getMap();
 // 	$response->getBody()->write($task->returnAllTasks());
 // 	return $response;
 // });
+$app = new TaskService();
 
-$map->post('task.create', '/tasks', function ($request) {
-	
-	$app = new TaskService();
-	$response = new Zend\Diactoros\Response();
+$map->get('task','/tasks/{id}', function ($request) use ($app) {
+	$response = new Response();
+	$response->getBody()->write($app->viewTask($request));
+	return $response;
+});
+
+$map->post('task.create', '/tasks', function ($request) use ($app) {
+	$response = new Response();
 	$response->getBody()->write($app->createTask($request));
 	return $response;
 });

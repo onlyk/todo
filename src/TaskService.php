@@ -10,7 +10,16 @@ class TaskService
 		$body = $request->getQueryParams()['body'];
 		$task = new Task(0, $name, $body, 'new');
 		$repo = new TaskRepository();
-		$repo->create($task);
-		return 'done';
+		$some = (string) $repo->create($task);
+		return $some;
 	}
+
+
+	public function viewTask($request) : string
+	{
+		$id = $request->getAttribute('id');
+		$task = Task::fromDB($id);
+		return (string) $task;
+	}
+
 }

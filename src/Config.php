@@ -6,7 +6,7 @@ class Config
 {	
 	public function getConfig()
 	{
-		$file = file_get_contents(realpath('./../src/config.json'));
+		$file = file_get_contents(realpath('./../config.json'));
 		$json = json_decode($file, true);
 		return $json;
 	}
