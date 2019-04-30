@@ -1,4 +1,4 @@
 {
-	"opt": "[\\PDO::ATTR_ERRMODE => \\PDO::ERRMODE_EXCEPTION]",
+	"opt": {"3":2},
 	"connect":"'pgsql:host=localhost;port=5432;dbname=dbname;', \"postgres\", \"password\", $opt"
 }

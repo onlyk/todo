@@ -24,3 +24,6 @@ class Config
 	}
 
 }
+
+// $conf = new Config();
+// print_r($conf->getDBOption());
