@@ -2,6 +2,9 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
+use App\Task;
+use App\TaskService;
+use App\Config;
 // Вот тут понимаю, имплементация пср-7 интерфейса
 
 $request = Zend\Diactoros\ServerRequestFactory::fromGlobals(
@@ -17,37 +20,36 @@ $routerContainer = new Aura\Router\RouterContainer();
 $map = $routerContainer->getMap();
 
 // вот тут понимаю, добавляю пути на карту 
-$map->get('tasks', '/tasks', function ($request){
-	$task = new todo\Task();
-	$response = new Zend\Diactoros\Response();
-	$response->getBody()->write($task->returnAllTasks($pdo));
-	return $response;
-});
+// $map->get('tasks', '/tasks', function ($request){
+// 	$task = new Task();
+// 	$response = new Zend\Diactoros\Response();
+// 	$response->getBody()->write($task->returnAllTasks());
+// 	return $response;
+// });
 
 $map->post('task.create', '/tasks', function ($request) {
-	$name = $request->getQueryParams()['name'];
-	$body = $request->getQueryParams()['body'];
-	$task = new todo\Task();
+	
+	$app = new TaskService();
 	$response = new Zend\Diactoros\Response();
-	$response->getBody()->write($task->createTask($name, $body));
+	$response->getBody()->write($app->createTask($request));
 	return $response;
 });
 
-$map->post('task.done', '/tasks/{id}/markdone', function ($request) {
-	$id = $request->getAttribute('id');
-	$task = new todo\Task();
-	$response = new Zend\Diactoros\Response();
-	$response->getBody()->write($task->markDone($id));
-	return $response;
-});
+// $map->post('task.done', '/tasks/{id}/markdone', function ($request) {
+// 	$id = $request->getAttribute('id');
+// 	$task = new Task();
+// 	$response = new Zend\Diactoros\Response();
+// 	$response->getBody()->write($task->markDone($id));
+// 	return $response;
+// });
 
-$map->delete('task.delete', '/tasks/{id}', function ($request) {
-	$id = $request->getAttribute('id');
-	$task = new todo\Task($pdo);
-	$response = new Zend\Diactoros\Response();
-	$response->getBody()->write($task->deleteTask($id));
-	return $response;
-});
+// $map->delete('task.delete', '/tasks/{id}', function ($request) {
+// 	$id = $request->getAttribute('id');
+// 	$task = new Task($pdo);
+// 	$response = new Zend\Diactoros\Response();
+// 	$response->getBody()->write($task->deleteTask($id));
+// 	return $response;
+// });
 
 // объект для сравнения путей и запроса
 $matcher = $routerContainer->getMatcher();

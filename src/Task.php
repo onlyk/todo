@@ -1,58 +1,65 @@
 <?php
 
 
-namespace todo;
+namespace App;
 
 class Task
 {
-	private $pdo;
-	public function __construct()
-	{
-		$opt = array(\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION);
-		$this->pdo = new \PDO('pgsql:host=localhost;port=5432;dbname=todo;', "postgres", "misamisa", $opt);;
-	}
-	public function getNextId()
-	{
-		$stmt = $this->pdo->prepare('SELECT id FROM tasks WHERE id=(SELECT MAX(id) FROM tasks)');
-		$stmt->execute();
-		$result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-		return ($result[0]['id'] ?? 0) + 1;
-	}
+	private $id;
+	private $name;
+	private $body;
+	private $status;
 
-	public function createTask($name, $body)
+	public function __construct($id, $name, $body, $status)
 	{
-		$id = $this->getNextId();
-		$stmt = $this->pdo->prepare("INSERT INTO tasks (name, id, body, done) VALUES (:name, :id, :body, 0)");
-		$stmt->execute([':name' => $name, ':id' => $id, ':body' => $body]);
-		return "Task created. id:{$id}, name:{$name}, body:{$body}";
+		$this->id = $id;
+		$this->name = $name;
+		$this->body = $body;
+		$this->status = $status;
 	}
 
-	public function returnAllTasks()
+	public function fromDB()
 	{
-		$stmt = $this->pdo->prepare("SELECT * FROM tasks");
-		$stmt->execute();
-		$result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-		foreach ($result as $task) {
-			$tasks .= $task['name'] . '—' . $task['body'] . PHP_EOL;
-		}
-
-		return $tasks;
 
 	}
 
-	public function markDone($id)
+	public function new()
 	{
-		$stmt = $this->pdo->prepare("UPDATE tasks SET done = 1 
-	   WHERE id = :id");
 
-		$stmt->execute([':id' => $id]);
-		return "task id:{$id}, done!";
 	}
 
-	public function deleteTask($id)
+	public function updateBody($body)
 	{
-		$stmt = $this->pdo->prepare("DELETE FROM tasks WHERE id = :id");
-		$stmt->execute([':id' => $id]);
-		return "task id:{$id} deleted =(.";
+
+	}
+
+	public function statusDone()
+	{
+
+	}
+
+	public function statusCancel()
+	{
+
+	}
+
+	public function statusResume()
+	{
+
+	}
+	public function getName()
+	{
+		return $this->name;
+	}
+	public function getBody()
+	{
+		return $this->getBody;
 	}
 }
+
+// Создать новую задачу 
+// Удалить задачу
+// получить задачу
+// получить все задачи
+// Изменить статус задачи
+// Изменить содержание задачи
