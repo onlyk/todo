@@ -9,7 +9,7 @@ class TaskRepository
 	{
 		$conf = new Config();
 		$opt = $conf->getDBOption();
-		$this->pdo = new \PDO($conf->getConnectionString());
+		$this->pdo = new \PDO('pgsql:host=localhost;port=5432;dbname=todo;', "postgres", "misamisa", $opt);
 	}
 
 	public function find()
@@ -31,6 +31,6 @@ class TaskRepository
 	{
 		$stmt = $this->pdo->prepare("INSERT INTO tasks (name, body, status) VALUES (:name, :body, 'new')");
 
-		$stmt->execute([':name' => $task->getName, ':body' => $task->getBody]);
+		$stmt->execute([':name' => $task->getName(), ':body' => $task->getBody()]);
 	}
 } 

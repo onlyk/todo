@@ -11,5 +11,6 @@ class TaskService
 		$task = new Task(0, $name, $body, 'new');
 		$repo = new TaskRepository();
 		$repo->create($task);
+		return 'done';
 	}
 }
