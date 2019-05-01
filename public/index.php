@@ -57,8 +57,8 @@ $map->get('task', '/tasks/{id}', function ($request) use ($controller){
 
 $map->get('task.all', '/tasks', function ($request) use ($controller){
 	$response = new Response();
-	$connectData = App\Connect\Config::get();
-	$pdo = App\Connect\Connect::get()->connect($connectData);
+	$connectString = App\Connect\Config::get();
+	$pdo = App\Connect\Connect::connect($connectString)->get();
 
 	$pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 	$stmt = $pdo->prepare("SELECT * FROM tasks WHERE id = 8");

@@ -6,26 +6,18 @@ class Connect
 {
 	private $connect;
 
-	public function __construct()
+	public function __construct($connectString)
 	{
-		
-	}
-
-	public function connect($connectData)
-	{
-		$connectString = sprintf("%s:host=%s;port=%d;dbname=%s;user=%s;password=%s", 
-				$connectData->dbtype,
-                $connectData->host, 
-                $connectData->port, 
-                $connectData->database, 
-                $connectData->user, 
-                $connectData->password);
 		$this->connect = new \PDO($connectString);
-		return $this->connect; // спросить про мутабельность
 	}
 
-	public static function get() {
-		return new self();
+	public static function connect($connectString)
+	{
+		return new self($connectString);
+	}
+
+	public function get() {
+		return $this->connect; // ЭТО ТОЧНО НЕ МУТАБЕЛЬНО?!
 	}
 
 }

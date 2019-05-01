@@ -6,16 +6,21 @@ use App\Connect\ConnectData;
 
 class Config
 {	
-	public static function get() : ConnectData
+	public static function get() : String
 	{
 		$file = file_get_contents(realpath('./../config.json'));
 		$params = json_decode($file, true);
 
-		$connection = new ConnectData($params['opt'], $params['dbtype'], $params['host'], $params['port'], $params['database'], $params['user'], $params['password']);
+		$connectString= sprintf("%s:host=%s;port=%d;dbname=%s;user=%s;password=%s", 
+				$params['dbtype'],
+                $params['host'], 
+                $params['port'], 
+                $params['database'], 
+                $params['user'], 
+                $params['password']);
 
-		return $connection;
+		return $connectString;
 
 	}
 
 }
-
