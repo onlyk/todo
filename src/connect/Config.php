@@ -23,4 +23,12 @@ class Config
 
 	}
 
+	public static function getOptions() : array
+	{
+		$file = file_get_contents(realpath('./../config.json'));
+		$params = json_decode($file, true);
+
+		return $params['opt'];
+	}
+
 }
