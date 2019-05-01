@@ -57,15 +57,18 @@ $map->get('task', '/tasks/{id}', function ($request) use ($controller){
 
 $map->get('task.all', '/tasks', function ($request) use ($controller){
 	$response = new Response();
-	$response->getBody()->write('work');
+	$connectData = App\Connect\Config::get();
+	$pdo = App\Connect\Connect::get()->connect($connectData);
+
+	$pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+	$stmt = $pdo->prepare("SELECT * FROM tasks WHERE id = 8");
+	$stmt->execute();
+	$result = $stmt->fetch(\PDO::FETCH_ASSOC)['name'];
+	$response->getBody()->write($result);
 	return $response;
 });
 
-$map->get('task','/tasks/{id}', function ($request) use ($app) {
-	$response = new Response();
-	$response->getBody()->write($app->viewTask($request));
-	return $response;
-});
+
 
 
 // объект для сравнения путей и запроса
