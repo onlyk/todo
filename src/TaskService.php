@@ -6,23 +6,22 @@ namespace App;
 use App\TaskRepository;
 use App\Task;
 use App\TaskData;
-use \PDO;
+
 class TaskService
 {
 	private $repository;
 
-	public function __construct($connect)
+	public function __construct($taskRepository)
 	{	
-		$this->repository = TaskRepository::create($connect);
+		$this->repository = $taskRepository;
 	}
 
-	public static function init($connect)
+	public static function init($taskRepository)
 	{	
-		var_dump($connect);
-		return new self($connect);
+		return new self($taskRepository);
 	}
 
-	public function taskCreate(String $name, String $body) : String
+	public function taskCreate(String $name, String $body)
 	{
 		$task = Task::createNew($name, $body);
 		

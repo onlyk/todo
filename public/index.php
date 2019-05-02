@@ -2,12 +2,18 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
+use App\DependencyContainer;
+use App\Connect\Config;
+$config = Config::init();
+$di = new DependencyContainer($config);
+
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 // use App\Task;
 use App\Connect\Connect;
-use App\Connect\Config;
+
 use Zend\Diactoros\Response;
+
 // Вот тут понимаю, имплементация пср-7 интерфейса
 
 $request = Zend\Diactoros\ServerRequestFactory::fromGlobals(
@@ -22,8 +28,9 @@ $request = Zend\Diactoros\ServerRequestFactory::fromGlobals(
 $routerContainer = new Aura\Router\RouterContainer();
 $map = $routerContainer->getMap();
 
-$controller =  App\TaskController::create();
+$controller = $di->getTaskController();
 
+var_dump($controller);
 $map->post('task.create', '/tasks', function ($request) use ($controller){
 	
 	$controller->taskCreate($request);

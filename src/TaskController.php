@@ -9,21 +9,17 @@ class TaskController
 {
 	private $service;
 
-	public function __construct()
+	public function __construct($taskService)
 	{
-		$this->service = TaskService::init($connect);
+		$this->service = $taskService;
 	}
 
-	public static function create() : self
+	public static function create($taskService) : self
 	{	
-		$connectionString = Config::getConnectionString();
-		$connectionOptions = Config::getOptions();
-		$connect = Connect::connect($connectionString, $connectionOptions)->get();
-		
-		return new self($connect);
+		return new self($taskService);
 	}
 
-	public function taskCreate($request) : string
+	public function taskCreate($request) 
 	{
 		$taskName = $request->getQueryParams()['name'];
 		$taskBody = $request->getQueryParams()['body'];

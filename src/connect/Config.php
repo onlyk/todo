@@ -6,7 +6,11 @@ use App\Connect\ConnectData;
 
 class Config
 {	
-	public static function getConnectionString() : String
+	public static function init()
+	{
+		return new self;
+	}
+	public function getConnectString() : String
 	{
 		$file = file_get_contents(realpath('./../config.json'));
 		$params = json_decode($file, true);
@@ -23,7 +27,7 @@ class Config
 
 	}
 
-	public static function getOptions() : array
+	public function getOptions() : array
 	{
 		$file = file_get_contents(realpath('./../config.json'));
 		$params = json_decode($file, true);

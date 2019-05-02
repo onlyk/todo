@@ -7,6 +7,7 @@ use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 class TaskRepository
 {
 	private $pdo;
+	
 	public function __construct($connect)
 	{
 		$this->pdo = $connect;
