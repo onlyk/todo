@@ -2,21 +2,33 @@
 
 namespace App;
 
+use App\TaskService;
+use App\Connect\Connect;
+use App\Connect\Config;
 class TaskController
 {
+	private $service;
 
-	public function __constructor() : self
+	public function __construct()
 	{
-
+		$this->service = TaskService::init($connect);
 	}
 
 	public static function create() : self
-	{
-		return new self();
+	{	
+		$connectionString = Config::getConnectionString();
+		$connectionOptions = Config::getOptions();
+		$connect = Connect::connect($connectionString, $connectionOptions)->get();
+		
+		return new self($connect);
 	}
 
-	public function createNewTask(Request $request) : string
+	public function taskCreate($request) : string
 	{
+		$taskName = $request->getQueryParams()['name'];
+		$taskBody = $request->getQueryParams()['body'];
+
+		$this->service->taskCreate($taskName, $taskBody);
 		
 	}
 

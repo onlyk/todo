@@ -1,25 +1,28 @@
 <?php
 
 namespace App\Connect; 
-use App\Connect\ConnectData;
+
 
 class Connect
 {
 	private $connect;
 
-	public function __construct(string $connectString, array $options)
+	public function __construct($connectString, $options)
 	{
 		$this->connect = new \PDO($connectString, null, null, $options);
+
 	}
 
-	public static function connect(string $connectString, array $options) : self
+	public static function connect($connectString, $options)
 	{
 		return new self($connectString, $options);
 	}
 
-	public function get() : \PDO
+	public function get()
 	{
+
 		return $this->connect; // ЭТО ТОЧНО НЕ МУТАБЕЛЬНО?!
 	}
 
 }
+

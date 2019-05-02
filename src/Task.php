@@ -2,66 +2,30 @@
 
 
 namespace App;
+use App\TaskData;
+
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 
 class Task
 {
-	private $id;
-	private $name;
-	private $body;
-	private $status;
+	private $taskData;
 
-	public function __construct($id, $name, $body, $status)
-	{
-		$this->id = $id;
-		$this->name = $name;
-		$this->body = $body;
-		$this->status = $status;
+	public function __construct($uuid, $name, $body, $status)
+	{	
+		$this->taskData = new TaskData($uuid, $name, $body, $status);
 	}
 	
-	public function __toString()
+	public static function createNew($name, $body)
 	{
-		return $this->id . ": " .$this->name . ": " . $this->body . ": ". $this->status;
+		$uuid = Uuid::uuid4();
+		$status = 'new';
+		return new self($uuid, $name, $body, $status);
 	}
 
-	public function fromDB($id)
+	public function getTaskData()
 	{
-		$repo = new TaskRepository();
-		$task = $repo->find($id);
-		$id = $id;
-		$name = $task['name'];
-		$body = $task['body'];
-		$status = $task['status'];
-		return new Task($id, $name, $body, $status);
+		return $this->taskData;
 	}
 
-	public function updateBody($body)
-	{
-
-	}
-
-	public function statusDone()
-	{
-
-	}
-
-	public function statusCancel()
-	{
-
-	}
-
-	public function statusResume()
-	{
-
-	}
-	public function getName() { return $this->name; }
-	public function getBody() { return $this->body; }
-	public function getId() { return $this->id; }
-	public function getStatus() { return $this->status; }
 }
-
-// Создать новую задачу 
-// Удалить задачу
-// получить задачу
-// получить все задачи
-// Изменить статус задачи
-// Изменить содержание задачи

@@ -1,42 +1,41 @@
 <?php
 
 namespace App;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 
 class TaskRepository
 {
 	private $pdo;
-	public function __construct()
+	public function __construct($connect)
 	{
-		$conf = new Config();
-		$opt = $conf->getDBOption();
-		$this->pdo = new \PDO('pgsql:host=localhost;port=5432;dbname=todo;', "postgres", "misamisa", $opt);
+		$this->pdo = $connect;
+	}
+
+	public static function create($connect)
+	{
+
+		return new self($connect);
 	}
 
 	public function find($id)
 	{
-		$stmt = $this->pdo->prepare("SELECT * FROM tasks WHERE id = :id");
-		$stmt->execute([':id' => $id]);
-		return $stmt->fetch();
+	
 	}
 
 	public function findAll()
 	{
-		return [];
 	}
 
-	public function store()
+	public function store($taskData)
 	{
+	$uuid4 = Uuid::uuid4();
+	var_dump($this->pdo);
+	$stmt = $this->pdo->prepare("INSERT INTO tasks(uuid, name, body, status) VALUES (:uuid, :name, :body, :status)");
+	$stmt->execute([':uuid' => $uuid4, ':name' => 'qwe', ':body' => 'qwe', ':status' => 'qweqwe']);
+
+		return 'work';
 
 	}
 
-	public function create($task)
-	{
-		$stmt = $this->pdo->prepare("INSERT INTO tasks (name, body, status) VALUES (:name, :body, 'new')");
-		$stmt->execute([':name' => $task->getName(), ':body' => $task->getBody()]);
-
-		$stmt = $this->pdo->prepare("SELECT MAX(id) FROM tasks");
-		$stmt->execute();
-		$id = $stmt->fetchAll(\PDO::FETCH_ASSOC)['id'];
-		return $id;
-	}
 } 

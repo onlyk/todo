@@ -4,10 +4,9 @@ require __DIR__ . '/../vendor/autoload.php';
 
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
-
-use App\Task;
-use App\TaskService;
-use App\Config;
+// use App\Task;
+use App\Connect\Connect;
+use App\Connect\Config;
 use Zend\Diactoros\Response;
 // Вот тут понимаю, имплементация пср-7 интерфейса
 
@@ -26,6 +25,8 @@ $map = $routerContainer->getMap();
 $controller =  App\TaskController::create();
 
 $map->post('task.create', '/tasks', function ($request) use ($controller){
+	
+	$controller->taskCreate($request);
 	$response = new Response();
 	$response->getBody()->write('work');
 	return $response;
@@ -56,15 +57,15 @@ $map->get('task', '/tasks/{id}', function ($request) use ($controller){
 });
 
 $map->get('task.all', '/tasks', function ($request) use ($controller){
-	$response = new Response();
-	$connectString = App\Connect\Config::get();
-	$opt = App\Connect\Config::getOptions();
-	$pdo = App\Connect\Connect::connect($connectString, $opt)->get();
-	$stmt = $pdo->prepare("SELECT * FROM tasks WHERE id = 8");
-	$stmt->execute();
-	$result = $stmt->fetch(\PDO::FETCH_ASSOC)['name'];
-	$response->getBody()->write($result);
-	return $response;
+	// $response = new Response();
+	// $connectString = App\Connect\Config::get();
+	// $opt = App\Connect\Config::getOptions();
+	// $pdo = App\Connect\Connect::connect($connectString, $opt)->get();
+	// $stmt = $pdo->prepare("SELECT * FROM tasks WHERE id = 8");
+	// $stmt->execute();
+	// $result = $stmt->fetch(\PDO::FETCH_ASSOC)['name'];
+	// $response->getBody()->write($result);
+	// return $response;
 });
 
 
