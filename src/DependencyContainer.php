@@ -20,7 +20,7 @@ class DependencyContainer
     public function getTaskController()
     {
         if (!isset($this->initDep[TaskController::class])) {
-            $this->initDep[TaskController::class] = TaskController::create($this->getTaskService());
+            $this->initDep[TaskController::class] = TaskController::init($this->getTaskService());
         }
         
         return $this->initDep[TaskController::class];
@@ -40,7 +40,7 @@ class DependencyContainer
         if (!isset($this->initDep[TaskRepository::class])) {
             $connect = $this->getConnect()->get();
 
-            $this->initDep[TaskRepository::class] = TaskRepository::create($connect);
+            $this->initDep[TaskRepository::class] = TaskRepository::init($connect);
         }
         
         return $this->initDep[TaskRepository::class];
@@ -57,14 +57,5 @@ class DependencyContainer
         
         return $this->initDep[Connect::class];
     }
-
-    // public function getConfig()
-    // {
-    // 	if (!isset($this->initDep[Config::class])) {
-    // 		$this->initDep[Config::class] = Config::init();
-    //  	}
-
-    //  	return $this->initDep[Config::class];
-    // }
 
 }

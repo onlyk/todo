@@ -17,4 +17,9 @@ class TaskData
 		$this->body = $body;
 		$this->status = $status;
 	}
+
+	public function __toString()
+	{
+		return $this->uuid .' '. $this->name .' '. $this->body .' '. $this->status;
+	}
 }

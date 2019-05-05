@@ -3,40 +3,49 @@
 namespace App;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
-
+use App\TaskData;
 class TaskRepository
 {
 	private $pdo;
-	
+
 	public function __construct($connect)
 	{
 		$this->pdo = $connect;
 	}
 
-	public static function create($connect)
+	public static function init($connect)
 	{
 
 		return new self($connect);
 	}
 
-	public function find($id)
+	public function find($uuid)
 	{
-	
+		$stmt = $this->pdo->prepare("SELECT * FROM tasks WHERE uuid = :uuid");
+		$stmt->execute([':uuid' => $uuid]);
+		$data = $stmt->fetch(\PDO::FETCH_ASSOC);
+		$taskData = new TaskData($data['uuid'], $data['name'], $data['body'], $data['status']);
+		return $taskData;
 	}
 
 	public function findAll()
 	{
+		$stmt = $this->pdo->prepare("SELECT * FROM tasks");
+		$stmt->execute();
+		$taskDataAll = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+		return $taskDataAll;
 	}
 
 	public function store($taskData)
 	{
-	$uuid4 = Uuid::uuid4();
-	var_dump($this->pdo);
 	$stmt = $this->pdo->prepare("INSERT INTO tasks(uuid, name, body, status) VALUES (:uuid, :name, :body, :status)");
-	$stmt->execute([':uuid' => $uuid4, ':name' => 'qwe', ':body' => 'qwe', ':status' => 'qweqwe']);
+	$stmt->execute([':uuid' => $taskData->uuid, ':name' => $taskData->name, ':body' => $taskData->body, ':status' => $taskData->status]);
+	}
 
-		return 'work';
-
+	public function delete($uuid)
+	{
+		$stmt = $this->pdo->prepare("DELETE * FROM tasks WHERE uuid = :uuid");
+		$stmt->execute([':uuid' => $uuid]);
 	}
 
 } 

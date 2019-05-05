@@ -5,6 +5,8 @@ namespace App;
 use App\TaskService;
 use App\Connect\Connect;
 use App\Connect\Config;
+use Zend\Diactoros\ServerRequest;
+
 class TaskController
 {
 	private $service;
@@ -14,43 +16,50 @@ class TaskController
 		$this->service = $taskService;
 	}
 
-	public static function create($taskService) : self
+	public static function init($taskService) : self
 	{	
 		return new self($taskService);
 	}
 
-	public function taskCreate($request) 
+	public function taskCreate(ServerRequest $request) : string
 	{
 		$taskName = $request->getQueryParams()['name'];
 		$taskBody = $request->getQueryParams()['body'];
-
 		$this->service->taskCreate($taskName, $taskBody);
 		
 	}
 
-	public function updateTaskBody(Request $request) : string
+	public function taskBodyUpdate(ServerRequest $request) : string
 	{
-
+		$uuid = $request->getAttribute('uuid');
+		$body = $request->getQueryParams()['body'];
+		$this->service->taskBodyUpdate($uuid, $body);
 	}
 
-	public function updateTaskStatus(Request $request) : string
+	public function taskStatusUpdate(ServerRequest $request) : string
 	{
-
+		$uuid = $request->getAttribute('uuid');
+		$status = $request->getQueryParams()['status'];
+		$this->service->taskStatusUpdate($uuid, $status);
 	}
 
-	public function deleteTask(Request $request) : string
+	public function taskDelete(ServerRequest $request) : string
 	{
-
+		$uuid = $request->getAttribute('uuid');
+		$this->servide->taskDelete($uuid);
 	}
 
-	public function findTask(Request $request) : string
+	public function find(ServerRequest $request) : string
 	{
-
+		$uuid = $request->getAttribute('uuid');
+		$task = json_encode($this->service->find($uuid));
+		return $task;
 	}
 
-	public function viewAllTasks(Request $request) : string
+	public function findAll(ServerRequest $request) : string
 	{
-
+		$taskAll = json_encode($this->service->findAll());
+		return $taskAll;
 	}
 
 }
