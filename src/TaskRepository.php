@@ -24,7 +24,7 @@ class TaskRepository
 		$stmt = $this->pdo->prepare("SELECT * FROM tasks WHERE uuid = :uuid");
 		$stmt->execute([':uuid' => $uuid]);
 		$data = $stmt->fetch(\PDO::FETCH_ASSOC);
-		$taskData = new TaskData($data['uuid'], $data['name'], $data['body'], $data['status']);
+		$taskData = new TaskData(Uuid::fromString($data['uuid']), $data['name'], $data['body'], $data['status']);
 		return $taskData;
 	}
 
@@ -42,6 +42,11 @@ class TaskRepository
 	$stmt->execute([':uuid' => $taskData->uuid, ':name' => $taskData->name, ':body' => $taskData->body, ':status' => $taskData->status]);
 	}
 
+	public function update($taskData)
+	{
+		$stmt = $this->pdo->prepare("UPDATE tasks SET name = :name, body = :body, status = :status WHERE uuid = :uuid");
+		$stmt->execute([':uuid' => $taskData->uuid, ':name' => $taskData->name, ':body' => $taskData->body, ':status' => $taskData->status]);
+	}
 	public function delete($uuid)
 	{
 		$stmt = $this->pdo->prepare("DELETE * FROM tasks WHERE uuid = :uuid");

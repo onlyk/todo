@@ -32,7 +32,7 @@ class TaskService
 		$taskData = $this->repository->find($uuid);
 		$task = Task::createFromDTO($taskData);
 		$task->taskBodyUpdate($body);
-		$this->repository->store($task->getTaskData());
+		$this->repository->update($task->getTaskData());
 	}
 
 	public function taskStatusUpdate($uuid, $status)
@@ -40,7 +40,7 @@ class TaskService
 		$taskData = $this->repository->find($uuid);
 		$task = Task::createFromDTO($taskData);
 		$task->taskStatusUpdate($status);
-		$this->repository->store($task->getTaskData());
+		$this->repository->update($task->getTaskData());
 	}
 
 	public function taskDelete($uuid)

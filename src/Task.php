@@ -29,26 +29,31 @@ class Task
 
     public function taskBodyUpdate($body)
     {   
+
         try {
-            if ($this->taskData->body === 'done') {
-                throw new Exception('Задача не может быть изменена, т.е ее статус: done');
+
+            if ($this->taskData->status === 'done') {
+                echo 'lol';
+                throw new \Exception('Задача не может быть изменена, т.к ее статус: done');
             }
 
             if ($this->taskData->body === 'canceled') {
-                throw new Exception('Задача не может быть изменена, т.е ее статус: canceled');
+                throw new \Exception('Задача не может быть изменена, т.к ее статус: canceled');
             }
            
         }
-         {
-            echo 'Изменить задачу нельзя';
-        } else {
-            $this->taskData->body = $body;
+
+        catch (Exception $ex) {
+            $echo->$ex->getMessage();
         }
+
+        $this->taskData->body = $body;
+
     }
 
     public function taskStatusUpdate($status)
     {
-
+        $this->taskData->status = $status;
     }
 
     public function getTaskData()

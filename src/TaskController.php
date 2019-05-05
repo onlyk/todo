@@ -26,7 +26,7 @@ class TaskController
 		$taskName = $request->getQueryParams()['name'];
 		$taskBody = $request->getQueryParams()['body'];
 		$this->service->taskCreate($taskName, $taskBody);
-		
+		return 'work';
 	}
 
 	public function taskBodyUpdate(ServerRequest $request) : string
@@ -34,6 +34,7 @@ class TaskController
 		$uuid = $request->getAttribute('uuid');
 		$body = $request->getQueryParams()['body'];
 		$this->service->taskBodyUpdate($uuid, $body);
+		return 'work';
 	}
 
 	public function taskStatusUpdate(ServerRequest $request) : string
@@ -41,6 +42,7 @@ class TaskController
 		$uuid = $request->getAttribute('uuid');
 		$status = $request->getQueryParams()['status'];
 		$this->service->taskStatusUpdate($uuid, $status);
+		return 'work';
 	}
 
 	public function taskDelete(ServerRequest $request) : string
