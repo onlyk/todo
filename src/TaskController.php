@@ -8,12 +8,12 @@ class TaskController
 {
 	private $service;
 
-	public function __construct(App\taskService $taskService)
+	public function __construct(TaskService $taskService)
 	{
 		$this->service = $taskService;
 	}
 
-	public static function init(App\taskService $taskService) : self
+	public static function init(TaskService $taskService) : self
 	{	
 		return new self($taskService);
 	}
