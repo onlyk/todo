@@ -21,23 +21,25 @@ class TaskController
 		return new self($taskService);
 	}
 
-	public function taskCreate(ServerRequest $request) : string
+	public function taskCreate(ServerRequest $request) : String
 	{
 		$taskName = $request->getQueryParams()['name'];
 		$taskBody = $request->getQueryParams()['body'];
 		$this->service->taskCreate($taskName, $taskBody);
+
 		return 'work';
 	}
 
-	public function taskBodyUpdate(ServerRequest $request) : string
+	public function taskBodyUpdate(ServerRequest $request) : String
 	{
 		$uuid = $request->getAttribute('uuid');
 		$body = $request->getQueryParams()['body'];
 		$this->service->taskBodyUpdate($uuid, $body);
+
 		return 'work';
 	}
 
-	public function taskStatusUpdate(ServerRequest $request) : string
+	public function taskStatusUpdate(ServerRequest $request) : String
 	{
 		$uuid = $request->getAttribute('uuid');
 		$status = $request->getQueryParams()['status'];
@@ -47,22 +49,24 @@ class TaskController
 		
 	}
 
-	public function taskDelete(ServerRequest $request) : string
+	public function taskDelete(ServerRequest $request) : String
 	{
 		$uuid = $request->getAttribute('uuid');
 		$this->servide->taskDelete($uuid);
 	}
 
-	public function find(ServerRequest $request) : string
+	public function find(ServerRequest $request) : String
 	{
 		$uuid = $request->getAttribute('uuid');
 		$task = json_encode($this->service->find($uuid));
+
 		return $task;
 	}
 
-	public function findAll(ServerRequest $request) : string
+	public function findAll(ServerRequest $request) : String
 	{
 		$taskAll = json_encode($this->service->findAll());
+
 		return $taskAll;
 	}
 
