@@ -14,7 +14,8 @@ class Config
 		$file = file_get_contents(realpath('./../config.json'));
 		$params = json_decode($file, true);
 
-		$connectString= sprintf("%s:host=%s;port=%d;dbname=%s;user=%s;password=%s", 
+		$connectString= sprintf(
+				"%s:host=%s;port=%d;dbname=%s;user=%s;password=%s", 
 				$params['dbtype'],
                 $params['host'], 
                 $params['port'], 
@@ -23,10 +24,9 @@ class Config
                 $params['password']);
 
 		return $connectString;
-
 	}
 
-	public function getOptions() : array
+	public function getOptions() : Array
 	{
 		$file = file_get_contents(realpath('./../config.json'));
 		$params = json_decode($file, true);
