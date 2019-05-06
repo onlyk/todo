@@ -2,21 +2,18 @@
 
 namespace App;
 
-use App\TaskService;
-use App\Connect\Connect;
-use App\Connect\Config;
 use Zend\Diactoros\ServerRequest;
 
 class TaskController
 {
 	private $service;
 
-	public function __construct($taskService)
+	public function __construct(App\taskService $taskService)
 	{
 		$this->service = $taskService;
 	}
 
-	public static function init($taskService) : self
+	public static function init(App\taskService $taskService) : self
 	{	
 		return new self($taskService);
 	}
@@ -69,5 +66,4 @@ class TaskController
 
 		return $taskAll;
 	}
-
 }
