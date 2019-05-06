@@ -12,12 +12,12 @@ class Connect
 
 	}
 
-	public static function connect($connectString, $options)
+	public static function connect($connectString, $options) : self
 	{
 		return new self($connectString, $options);
 	}
 
-	public function get()
+	public function get() : \PDO
 	{
 		return $this->connect;
 	}

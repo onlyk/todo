@@ -17,7 +17,7 @@ class DependencyContainer
         $this->config = $config;
     }
     
-    public function getTaskController()
+    public function getTaskController() : TaskController
     {
         if (!isset($this->initDep[TaskController::class])) {
             $this->initDep[TaskController::class] = TaskController::init($this->getTaskService());
@@ -26,7 +26,7 @@ class DependencyContainer
         return $this->initDep[TaskController::class];
     }
     
-    public function getTaskService()
+    public function getTaskService() : TaskService
     {
         if (!isset($this->initDep[TaskService::class])) {
             $this->initDep[TaskService::class] = TaskService::init($this->getTaskRepository());
@@ -35,7 +35,7 @@ class DependencyContainer
         return $this->initDep[TaskService::class];
     }
 
-    public function getTaskRepository()
+    public function getTaskRepository() : TaskRepository
     {
         if (!isset($this->initDep[TaskRepository::class])) {
             $connect = $this->getConnect()->get();
@@ -45,7 +45,7 @@ class DependencyContainer
         return $this->initDep[TaskRepository::class];
     }
     
-    public function getConnect()
+    public function getConnect() : Connect
     {
         if (!isset($this->initDep[Connect::class])) {
         	$connectString = $this->config->getConnectString();

@@ -14,7 +14,7 @@ class TaskService
 		$this->repository = $taskRepository;
 	}
 
-	public static function init($taskRepository)
+	public static function init($taskRepository) : self
 	{	
 		return new self($taskRepository);
 	}
@@ -46,12 +46,12 @@ class TaskService
 		$this->repository->delete($uuid);
 	}
 
-	public function find($uuid)
+	public function find($uuid) : TaskData
 	{
 		return $this->repository->find($uuid);
 	}
 
-	public function findAll()
+	public function findAll() : Array
 	{
 		return $this->repository->findAll();
 	}

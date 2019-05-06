@@ -15,12 +15,12 @@ class TaskRepository
 		$this->pdo = $connect;
 	}
 
-	public static function init($connect)
+	public static function init($connect) : self
 	{
 		return new self($connect);
 	}
 
-	public function find($uuid)
+	public function find($uuid) : TaskData
 	{
 		$stmt = $this->pdo->prepare("SELECT * FROM tasks WHERE uuid = :uuid");
 		$stmt->execute([':uuid' => $uuid]);
@@ -35,7 +35,7 @@ class TaskRepository
 		return $taskData;
 	}
 
-	public function findAll()
+	public function findAll() : Array
 	{
 		$stmt = $this->pdo->prepare("SELECT * FROM tasks");
 		$stmt->execute();

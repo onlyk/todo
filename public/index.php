@@ -23,7 +23,7 @@ $request = Zend\Diactoros\ServerRequestFactory::fromGlobals(
 $routerContainer = new Aura\Router\RouterContainer();
 $map = $routerContainer->getMap();
 
-$map->post('task.create', '/tasks', function ($request) use ($controller)
+$map->post('task.create', '/tasks', function ($request) use ($controller) : Response
 {
     $result = $controller->taskCreate($request);
     $response = new Response();
@@ -32,7 +32,7 @@ $map->post('task.create', '/tasks', function ($request) use ($controller)
     return $response;
 });
 
-$map->post('task.body.update', '/tasks/{uuid}/body/update', function ($request) use ($controller)
+$map->post('task.body.update', '/tasks/{uuid}/body/update', function ($request) use ($controller) : Response
 {
     $result = $controller->taskBodyUpdate($request);
     $response = new Response();
@@ -41,7 +41,7 @@ $map->post('task.body.update', '/tasks/{uuid}/body/update', function ($request) 
     return $response;
 });
 
-$map->post('task.status.update', '/tasks/{uuid}/status/update', function ($request) use ($controller)
+$map->post('task.status.update', '/tasks/{uuid}/status/update', function ($request) use ($controller) : Response
 {
     $result = $controller->taskStatusUpdate($request);
     $response = new Response();
@@ -50,7 +50,7 @@ $map->post('task.status.update', '/tasks/{uuid}/status/update', function ($reque
     return $response;
 });
 
-$map->delete('task.delete', '/tasks/{uuid}', function ($request) use ($controller)
+$map->delete('task.delete', '/tasks/{uuid}', function ($request) use ($controller) : Response
 {
     $result = $controller->taskDelete($request);
     $response = new Response();
@@ -59,7 +59,7 @@ $map->delete('task.delete', '/tasks/{uuid}', function ($request) use ($controlle
     return $response;
 });
 
-$map->get('task', '/tasks/{uuid}', function ($request) use ($controller)
+$map->get('task', '/tasks/{uuid}', function ($request) use ($controller) : Response
 {
     $result = $controller->find($request);
     $response = new Response();
@@ -68,7 +68,7 @@ $map->get('task', '/tasks/{uuid}', function ($request) use ($controller)
     return $response;
 });
 
-$map->get('task.all', '/tasks', function ($request) use ($controller)
+$map->get('task.all', '/tasks', function ($request) use ($controller) : Response
 {
     $result = $controller->findAll($request);
     $response = new Response();

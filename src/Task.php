@@ -23,7 +23,7 @@ class Task
         return new self($uuid, $name, $body, $status);
     }
 
-    public static function createFromDTO($taskData)
+    public static function createFromDTO($taskData) : self
     {
         return new self($taskData->uuid, $taskData->name, $taskData->body, $taskData->status);
     }
@@ -52,7 +52,7 @@ class Task
         $this->taskData->status = $status;
     }
 
-    public function getTaskData()
+    public function getTaskData() : TaskData
     {
         return $this->taskData;
     }
