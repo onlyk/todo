@@ -11,8 +11,8 @@ class Config
 
 	public function getConnectString() : String
 	{	
-		$realpath = realpath('./../../config.json');
-		if (!file_exists($real)) {
+		$realpath = realpath('./../config.json');
+		if (!file_exists($realpath)) {
 			throw new \Exception('файл конфигурации БД отсутствует');
 		}
 
@@ -33,11 +33,11 @@ class Config
 
 	public function getOptions() : Array
 	{
-		$realpath = realpath('./../../config.json');
-		if (!file_exists($real)) {
+		$realpath = realpath('./../config.json');
+		if (!file_exists($realpath)) {
 			throw new \Exception('файл конфигурации БД отсутствует');
 		}
-
+		$file = file_get_contents($realpath);
 		$params = json_decode($file, true);
 
 		return $params['opt'];
