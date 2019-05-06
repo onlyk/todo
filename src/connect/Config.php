@@ -2,14 +2,13 @@
 
 namespace App\Connect;
 
-use App\Connect\ConnectData;
-
 class Config
 {	
 	public static function init()
 	{
 		return new self;
 	}
+
 	public function getConnectString() : String
 	{
 		$file = file_get_contents(realpath('./../config.json'));
@@ -34,5 +33,4 @@ class Config
 
 		return $params['opt'];
 	}
-
 }
