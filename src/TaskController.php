@@ -41,8 +41,10 @@ class TaskController
 	{
 		$uuid = $request->getAttribute('uuid');
 		$status = $request->getQueryParams()['status'];
-		$this->service->taskStatusUpdate($uuid, $status);
-		return 'work';
+		$result = $this->service->taskStatusUpdate($uuid, $status);
+
+		return $result;
+		
 	}
 
 	public function taskDelete(ServerRequest $request) : string

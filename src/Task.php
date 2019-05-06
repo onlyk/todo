@@ -31,9 +31,8 @@ class Task
     {   
 
         try {
-
+            
             if ($this->taskData->status === 'done') {
-                echo 'lol';
                 throw new \Exception('Задача не может быть изменена, т.к ее статус: done');
             }
 
@@ -43,8 +42,8 @@ class Task
            
         }
 
-        catch (Exception $ex) {
-            $echo->$ex->getMessage();
+        catch (\Exception $ex) {
+            echo $ex->getMessage();
         }
 
         $this->taskData->body = $body;
