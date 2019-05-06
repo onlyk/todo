@@ -55,9 +55,14 @@ class Task
 
     public function taskStatusUpdate($status)
     {   
+        $possibleStatuses = ['wip', 'canceled', 'done'];
+        if (!in_array($status, $possibleStatuses)) {
+            throw new \Exception('Изменить статус нельзя, т.к возможные статусы: done, wip, canceled');
+        }
         if ($status === 'canceled' && $this->taskData->status === 'done') {
             throw new \Exception('Задачу нельзя изменить, она уже выполнена');
         }
+
         if ($status === 'done' && $this->taskData->status === 'canceled') {
             throw new \Exception('Задачу нельзя выполнить, она отменена');
         }
