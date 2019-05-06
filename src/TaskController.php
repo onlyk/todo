@@ -31,9 +31,9 @@ class TaskController
 	{
 		$uuid = $request->getAttribute('uuid');
 		$body = $request->getQueryParams()['body'];
-		$this->service->taskBodyUpdate($uuid, $body);
+		$result = $this->service->taskBodyUpdate($uuid, $body);
 
-		return 'work';
+		return $result;
 	}
 
 	public function taskStatusUpdate(ServerRequest $request) : String
@@ -49,7 +49,9 @@ class TaskController
 	public function taskDelete(ServerRequest $request) : String
 	{
 		$uuid = $request->getAttribute('uuid');
-		$this->servide->taskDelete($uuid);
+		$result = $this->servide->taskDelete($uuid);
+
+		return $result;
 	}
 
 	public function find(ServerRequest $request) : String

@@ -28,25 +28,31 @@ class TaskService
 		return $task->getTaskData()->uuid;
 	}
 
-	public function taskBodyUpdate($uuid, $body)
+	public function taskBodyUpdate($uuid, $body) : String
 	{
 		$taskData = $this->repository->find($uuid);
 		$task = Task::createFromDTO($taskData);
-		$task->taskBodyUpdate($body);
+		$result = $task->taskBodyUpdate($body);
 		$this->repository->update($task->getTaskData());
+
+		return 'Задача обновлена';
 	}
 
-	public function taskStatusUpdate($uuid, $status)
+	public function taskStatusUpdate($uuid, $status) : String
 	{
 		$taskData = $this->repository->find($uuid);
 		$task = Task::createFromDTO($taskData);
-		$task->taskStatusUpdate($status);
+		$result = $task->taskStatusUpdate($status);
 		$this->repository->update($task->getTaskData());
+
+		return 'Статус задачи обновлен';
 	}
 
-	public function taskDelete($uuid)
+	public function taskDelete($uuid) : String
 	{
 		$this->repository->delete($uuid);
+
+		return 'Задача удалена';
 	}
 
 	public function find($uuid) : TaskData
