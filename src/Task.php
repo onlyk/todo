@@ -19,7 +19,7 @@ class Task
     {
         $uuid = Uuid::uuid4();
         $status = 'new';
-        
+
         return new self($uuid, $name, $body, $status);
     }
 
@@ -30,9 +30,7 @@ class Task
 
     public function taskBodyUpdate($body)
     {   
-
         try {
-
             if ($this->taskData->status === 'done') {
                 throw new \Exception('Задача не может быть изменена, т.к ее статус: done');
             }
@@ -40,15 +38,13 @@ class Task
             if ($this->taskData->body === 'canceled') {
                 throw new \Exception('Задача не может быть изменена, т.к ее статус: canceled');
             }
-           
         }
 
         catch (\Exception $ex) {
             echo $ex->getMessage();
         }
-
+        
         $this->taskData->body = $body;
-
     }
 
     public function taskStatusUpdate($status)
