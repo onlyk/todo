@@ -2,8 +2,6 @@
 
 namespace App;
 
-
-use App\TaskRepository;
 use App\Task;
 use App\TaskData;
 
