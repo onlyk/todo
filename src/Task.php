@@ -38,25 +38,30 @@ class Task
 
     public function taskBodyUpdate($body)
     {   
-        try {
-            if ($this->taskData->status === 'done') {
-                throw new \Exception('Задача не может быть изменена, т.к ее статус: done');
-            }
-
-            if ($this->taskData->body === 'canceled') {
-                throw new \Exception('Задача не может быть изменена, т.к ее статус: canceled');
-            }
+        if (strlen($body) < 3) {
+            throw new \Exception('Задача не изменена, т.к содержит меньше трех символов');
         }
 
-        catch (\Exception $ex) {
-            echo $ex->getMessage();
+        if ($this->taskData->status === 'done') {
+            throw new \Exception('Задача не может быть изменена, т.к ее статус: done');
+        }
+
+        if ($this->taskData->body === 'canceled') {
+            throw new \Exception('Задача не может быть изменена, т.к ее статус: canceled');
         }
         
         $this->taskData->body = $body;
     }
 
     public function taskStatusUpdate($status)
-    {
+    {   
+        if ($status === 'canceled' && $this->taskData->status === 'done') {
+            throw new \Exception('Задачу нельзя изменить, она уже выполнена');
+        }
+        if ($status === 'done' && $this->taskData->status === 'canceled') {
+            throw new \Exception('Задачу нельзя выполнить, она отменена');
+        }
+
         $this->taskData->status = $status;
     }
 
