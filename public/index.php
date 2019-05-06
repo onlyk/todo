@@ -28,6 +28,7 @@ $map->post('task.create', '/tasks', function ($request) use ($controller)
     $result = $controller->taskCreate($request);
     $response = new Response();
     $response->getBody()->write($result);
+
     return $response;
 });
 
@@ -36,6 +37,7 @@ $map->post('task.body.update', '/tasks/{uuid}/body/update', function ($request) 
     $result = $controller->taskBodyUpdate($request);
     $response = new Response();
     $response->getBody()->write($result);
+
     return $response;
 });
 
@@ -44,6 +46,7 @@ $map->post('task.status.update', '/tasks/{uuid}/status/update', function ($reque
     $result = $controller->taskStatusUpdate($request);
     $response = new Response();
     $response->getBody()->write($result);
+
     return $response;
 });
 
@@ -52,6 +55,7 @@ $map->delete('task.delete', '/tasks/{uuid}', function ($request) use ($controlle
     $result = $controller->taskDelete($request);
     $response = new Response();
     $response->getBody()->write($result);
+
     return $response;
 });
 
@@ -60,6 +64,7 @@ $map->get('task', '/tasks/{uuid}', function ($request) use ($controller)
     $result = $controller->find($request);
     $response = new Response();
     $response->getBody()->write($result);
+
     return $response;
 });
 
@@ -68,6 +73,7 @@ $map->get('task.all', '/tasks', function ($request) use ($controller)
     $result = $controller->findAll($request);
     $response = new Response();
     $response->getBody()->write($result);
+    
     return $response;
 });
 
