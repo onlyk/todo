@@ -39,7 +39,6 @@ class DependencyContainer
     {
         if (!isset($this->initDep[TaskRepository::class])) {
             $connect = $this->getConnect()->get();
-
             $this->initDep[TaskRepository::class] = TaskRepository::init($connect);
         }
         
@@ -51,7 +50,6 @@ class DependencyContainer
         if (!isset($this->initDep[Connect::class])) {
         	$connectString = $this->config->getConnectString();
         	$options = $this->config->getOptions();
-
             $this->initDep[Connect::class] = Connect::connect($connectString, $options);
         }
         
