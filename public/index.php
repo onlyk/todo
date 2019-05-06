@@ -8,6 +8,10 @@ use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 use Zend\Diactoros\Response;
 
+set_exception_handler(function (Exception $exception) {
+    echo $exception->getMessage();
+});
+
 $config = Config::init();
 $di = new DependencyContainer($config);
 $controller = $di->getTaskController();

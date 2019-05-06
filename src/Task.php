@@ -17,6 +17,14 @@ class Task
     
     public static function createNew($name, $body) : self
     {
+        if (strlen($name) < 3) {
+            throw new \Exception('Задача не может быть создана, т.к имя меньше трех символов');
+        }
+
+        if (strlen($body) < 3) {
+            throw new \Exception('Задача не может быть создана, т.к содержит меньше трех символов');
+        }
+
         $uuid = Uuid::uuid4();
         $status = 'new';
 

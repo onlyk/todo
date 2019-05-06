@@ -22,9 +22,9 @@ class TaskController
 	{
 		$taskName = $request->getQueryParams()['name'];
 		$taskBody = $request->getQueryParams()['body'];
-		$this->service->taskCreate($taskName, $taskBody);
+		$uuid = $this->service->taskCreate($taskName, $taskBody);
 
-		return 'work';
+		return $uuid->toString();
 	}
 
 	public function taskBodyUpdate(ServerRequest $request) : String

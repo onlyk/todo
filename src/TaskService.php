@@ -4,6 +4,7 @@ namespace App;
 
 use App\Task;
 use App\TaskData;
+use Ramsey\Uuid\Uuid;
 
 class TaskService
 {
@@ -19,10 +20,12 @@ class TaskService
 		return new self($taskRepository);
 	}
 
-	public function taskCreate($name, $body)
+	public function taskCreate($name, $body) : Uuid
 	{
 		$task = Task::createNew($name, $body);
 		$this->repository->store($task->getTaskData());
+
+		return $task->getTaskData()->uuid;
 	}
 
 	public function taskBodyUpdate($uuid, $body)
