@@ -1,7 +1,7 @@
 <?php
 
-
 namespace App;
+
 use App\TaskData;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
@@ -15,10 +15,11 @@ class Task
         $this->taskData = new TaskData($uuid, $name, $body, $status);
     }
     
-    public static function createNew($name, $body)
+    public static function createNew($name, $body) : self
     {
         $uuid = Uuid::uuid4();
         $status = 'new';
+        
         return new self($uuid, $name, $body, $status);
     }
 
@@ -31,7 +32,7 @@ class Task
     {   
 
         try {
-            
+
             if ($this->taskData->status === 'done') {
                 throw new \Exception('Задача не может быть изменена, т.к ее статус: done');
             }

@@ -2,7 +2,6 @@
 
 namespace App\Connect; 
 
-
 class Connect
 {
 	private $connect;
@@ -20,9 +19,7 @@ class Connect
 
 	public function get()
 	{
-
-		return $this->connect; // ЭТО ТОЧНО НЕ МУТАБЕЛЬНО?!
+		return $this->connect;
 	}
-
 }
 
