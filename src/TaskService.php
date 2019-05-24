@@ -15,12 +15,7 @@ class TaskService
 		$this->repository = $taskRepository;
 	}
 
-	public static function init($taskRepository) : self
-	{	
-		return new self($taskRepository);
-	}
-
-	public function taskCreate($name, $body) : Uuid
+	public function taskCreate(String $name, String $body) : Uuid
 	{
 		$task = Task::createNew($name, $body);
 		$this->repository->store($task->getTaskData());
@@ -28,7 +23,7 @@ class TaskService
 		return $task->getTaskData()->uuid;
 	}
 
-	public function taskBodyUpdate($uuid, $body) : String
+	public function taskBodyUpdate(Uuid $uuid, String $body) : String
 	{
 		$taskData = $this->repository->find($uuid);
 		$task = Task::createFromDTO($taskData);
@@ -38,7 +33,7 @@ class TaskService
 		return 'Задача обновлена';
 	}
 
-	public function taskStatusUpdate($uuid, $status) : String
+	public function taskStatusUpdate(Uuid $uuid, String $status) : String
 	{
 		$taskData = $this->repository->find($uuid);
 		$task = Task::createFromDTO($taskData);
@@ -48,14 +43,14 @@ class TaskService
 		return 'Статус задачи обновлен';
 	}
 
-	public function taskDelete($uuid) : String
+	public function taskDelete(Uuid $uuid) : String
 	{
 		$this->repository->delete($uuid);
 
 		return 'Задача удалена';
 	}
 
-	public function find($uuid) : TaskData
+	public function find(Uuid $uuid) : TaskData
 	{
 		return $this->repository->find($uuid);
 	}

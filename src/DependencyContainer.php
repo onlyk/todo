@@ -20,7 +20,7 @@ class DependencyContainer
     public function getTaskController() : TaskController
     {
         if (!isset($this->initDep[TaskController::class])) {
-            $this->initDep[TaskController::class] = TaskController::init($this->getTaskService());
+            $this->initDep[TaskController::class] = new TaskController($this->getTaskService());
         }
         
         return $this->initDep[TaskController::class];
@@ -29,7 +29,7 @@ class DependencyContainer
     public function getTaskService() : TaskService
     {
         if (!isset($this->initDep[TaskService::class])) {
-            $this->initDep[TaskService::class] = TaskService::init($this->getTaskRepository());
+            $this->initDep[TaskService::class] = new TaskService($this->getTaskRepository());
         }
         
         return $this->initDep[TaskService::class];
@@ -39,7 +39,7 @@ class DependencyContainer
     {
         if (!isset($this->initDep[TaskRepository::class])) {
             $connect = $this->getConnect()->get();
-            $this->initDep[TaskRepository::class] = TaskRepository::init($connect);
+            $this->initDep[TaskRepository::class] = new TaskRepository($connect);
         }
         
         return $this->initDep[TaskRepository::class];
@@ -50,7 +50,7 @@ class DependencyContainer
         if (!isset($this->initDep[Connect::class])) {
         	$connectString = $this->config->getConnectString();
         	$options = $this->config->getOptions();
-            $this->initDep[Connect::class] = Connect::connect($connectString, $options);
+            $this->initDep[Connect::class] = new Connect($connectString, $options);
         }
         
         return $this->initDep[Connect::class];

@@ -4,11 +4,10 @@ require __DIR__ . '/../vendor/autoload.php';
 
 use App\DependencyContainer;
 use App\Connect\Config;
-
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
-
 use Zend\Diactoros\Response;
+use Zend\Diactoros\ServerRequest;
 
 set_exception_handler(function (Exception $exception) {
     echo $exception->getMessage();
@@ -29,7 +28,7 @@ $request = Zend\Diactoros\ServerRequestFactory::fromGlobals(
 $routerContainer = new Aura\Router\RouterContainer();
 $map = $routerContainer->getMap();
 
-$map->post('task.create', '/tasks', function ($request) use ($controller) : Response
+$map->post('task.create', '/tasks', function (ServerRequest $request) use ($controller) : Response
 {
     $result = $controller->taskCreate($request);
     $response = new Response();
@@ -38,7 +37,7 @@ $map->post('task.create', '/tasks', function ($request) use ($controller) : Resp
     return $response;
 });
 
-$map->post('task.body.update', '/tasks/{uuid}/body/update', function ($request) use ($controller) : Response
+$map->post('task.body.update', '/tasks/{uuid}/body/update', function (ServerRequest $request) use ($controller) : Response
 {
     $result = $controller->taskBodyUpdate($request);
     $response = new Response();
@@ -47,7 +46,7 @@ $map->post('task.body.update', '/tasks/{uuid}/body/update', function ($request) 
     return $response;
 });
 
-$map->post('task.status.update', '/tasks/{uuid}/status/update', function ($request) use ($controller) : Response
+$map->post('task.status.update', '/tasks/{uuid}/status/update', function (ServerRequest $request) use ($controller) : Response
 {
     $result = $controller->taskStatusUpdate($request);
     $response = new Response();
@@ -56,7 +55,7 @@ $map->post('task.status.update', '/tasks/{uuid}/status/update', function ($reque
     return $response;
 });
 
-$map->delete('task.delete', '/tasks/{uuid}', function ($request) use ($controller) : Response
+$map->delete('task.delete', '/tasks/{uuid}', function (ServerRequest $request) use ($controller) : Response
 {
     $result = $controller->taskDelete($request);
     $response = new Response();
@@ -65,7 +64,7 @@ $map->delete('task.delete', '/tasks/{uuid}', function ($request) use ($controlle
     return $response;
 });
 
-$map->get('task', '/tasks/{uuid}', function ($request) use ($controller) : Response
+$map->get('task', '/tasks/{uuid}', function (ServerRequest $request) use ($controller) : Response
 {
     $result = $controller->find($request);
     $response = new Response();
@@ -74,7 +73,7 @@ $map->get('task', '/tasks/{uuid}', function ($request) use ($controller) : Respo
     return $response;
 });
 
-$map->get('task.all', '/tasks', function ($request) use ($controller) : Response
+$map->get('task.all', '/tasks', function (ServerRequest $request) use ($controller) : Response
 {
     $result = $controller->findAll($request);
     $response = new Response();

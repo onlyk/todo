@@ -10,12 +10,12 @@ class Task
 {
     private $taskData;
 
-    public function __construct($uuid, $name, $body, $status)
+    private function __construct(Uuid $uuid, String $name, String $body, String $status)
     {   
         $this->taskData = new TaskData($uuid, $name, $body, $status);
     }
     
-    public static function createNew($name, $body) : self
+    public static function createNew(String $name, String $body) : self
     {
         if (strlen($name) < 3) {
             throw new \Exception('Задача не может быть создана, т.к имя меньше трех символов');
@@ -31,12 +31,12 @@ class Task
         return new self($uuid, $name, $body, $status);
     }
 
-    public static function createFromDTO($taskData) : self
+    public static function createFromDTO(TaskData $taskData) : self
     {
         return new self($taskData->uuid, $taskData->name, $taskData->body, $taskData->status);
     }
 
-    public function taskBodyUpdate($body)
+    public function taskBodyUpdate(String $body)
     {   
         if (strlen($body) < 3) {
             throw new \Exception('Задача не изменена, т.к содержит меньше трех символов');
@@ -53,7 +53,7 @@ class Task
         $this->taskData->body = $body;
     }
 
-    public function taskStatusUpdate($status)
+    public function taskStatusUpdate(String $status)
     {   
         $possibleStatuses = ['wip', 'canceled', 'done'];
         if (!in_array($status, $possibleStatuses)) {

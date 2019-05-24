@@ -4,7 +4,12 @@ namespace App\Connect;
 
 class Config
 {	
-	public static function init()
+	private function __construct()
+	{
+
+	}
+
+	public static function init() : self
 	{
 		return new self;
 	}

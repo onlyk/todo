@@ -15,11 +15,6 @@ class TaskRepository
 		$this->pdo = $connect;
 	}
 
-	public static function init($connect) : self
-	{
-		return new self($connect);
-	}
-
 	public function find($uuid) : TaskData
 	{
 		$stmt = $this->pdo->prepare("SELECT * FROM tasks WHERE uuid = :uuid");
@@ -71,7 +66,7 @@ class TaskRepository
 		]);
 	}
 	
-	public function delete($uuid)
+	public function delete($uuid) 
 	{
 		$stmt = $this->pdo->prepare("DELETE * FROM tasks WHERE uuid = :uuid");
 		$stmt->execute([':uuid' => $uuid]);

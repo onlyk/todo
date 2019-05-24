@@ -4,6 +4,7 @@ namespace App;
 
 use Zend\Diactoros\ServerRequest;
 
+
 class TaskController
 {
 	private $service;
@@ -11,11 +12,6 @@ class TaskController
 	public function __construct(TaskService $taskService)
 	{
 		$this->service = $taskService;
-	}
-
-	public static function init(TaskService $taskService) : self
-	{	
-		return new self($taskService);
 	}
 
 	public function taskCreate(ServerRequest $request) : String
