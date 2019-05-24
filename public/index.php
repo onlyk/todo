@@ -4,8 +4,10 @@ require __DIR__ . '/../vendor/autoload.php';
 
 use App\DependencyContainer;
 use App\Connect\Config;
+
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
+
 use Zend\Diactoros\Response;
 
 set_exception_handler(function (Exception $exception) {
