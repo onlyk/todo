@@ -3,7 +3,7 @@
 namespace App;
 
 use Zend\Diactoros\ServerRequest;
-
+use Ramsey\Uuid\Uuid;
 
 class TaskController
 {
@@ -19,43 +19,43 @@ class TaskController
 		$taskName = $request->getQueryParams()['name'];
 		$taskBody = $request->getQueryParams()['body'];
 		$uuid = $this->service->taskCreate($taskName, $taskBody);
+		$result = $uuid->toString();
 
-		return $uuid->toString();
+		return json_encode($result);
 	}
 
 	public function taskBodyUpdate(ServerRequest $request) : String
 	{
-		$uuid = $request->getAttribute('uuid');
+		$uuid = Uuid::fromString($request->getAttribute('uuid'));
 		$body = $request->getQueryParams()['body'];
 		$result = $this->service->taskBodyUpdate($uuid, $body);
 
-		return $result;
+		return json_encode($result);
 	}
 
 	public function taskStatusUpdate(ServerRequest $request) : String
 	{
-		$uuid = $request->getAttribute('uuid');
+		$uuid = Uuid::fromString($request->getAttribute('uuid'));
 		$status = $request->getQueryParams()['status'];
 		$result = $this->service->taskStatusUpdate($uuid, $status);
 
-		return $result;
-		
+		return json_encode($result);
 	}
 
 	public function taskDelete(ServerRequest $request) : String
 	{
-		$uuid = $request->getAttribute('uuid');
+		$uuid = Uuid::fromString($request->getAttribute('uuid'));
 		$result = $this->servide->taskDelete($uuid);
 
-		return $result;
+		return json_encode($result);
 	}
 
 	public function find(ServerRequest $request) : String
 	{
-		$uuid = $request->getAttribute('uuid');
-		$task = json_encode($this->service->find($uuid));
+		$uuid = Uuid::fromString($request->getAttribute('uuid'));
+		$taskData = $this->service->find($uuid);
 
-		return $task;
+		return json_encode($taskData);
 	}
 
 	public function findAll(ServerRequest $request) : String

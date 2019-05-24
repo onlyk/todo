@@ -50,7 +50,7 @@ class TaskRepository
 		':status' => $taskData->status
 	]);
 	}
-
+	
 	public function update($taskData)
 	{
 		$stmt = $this->pdo->prepare("UPDATE tasks SET 

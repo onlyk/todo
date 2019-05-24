@@ -28,6 +28,13 @@ $request = Zend\Diactoros\ServerRequestFactory::fromGlobals(
 $routerContainer = new Aura\Router\RouterContainer();
 $map = $routerContainer->getMap();
 
+$map->get('text', '/test', function (ServerRequest $request) : Response
+{
+    $response = new Response();
+    $response = $response->withStatus(418, "I’m a teapot");
+    return $response;
+});
+
 $map->post('task.create', '/tasks', function (ServerRequest $request) use ($controller) : Response
 {
     $result = $controller->taskCreate($request);
@@ -50,8 +57,9 @@ $map->post('task.status.update', '/tasks/{uuid}/status/update', function (Server
 {
     $result = $controller->taskStatusUpdate($request);
     $response = new Response();
-    $response->getBody()->write($result);
 
+    $response->getBody()->write($result);
+    
     return $response;
 });
 
@@ -96,6 +104,8 @@ foreach ($route->attributes as $key => $val) {
 
 $callable = $route->handler;
 $response = $callable($request, $response);
+
+http_response_code($response->getStatusCode());
 
 foreach ($response->getHeaders() as $name => $values) {
     foreach ($values as $value) {
