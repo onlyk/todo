@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Service\TaskService;
 use Zend\Diactoros\ServerRequest;
+use Zend\Diactoros\Response;
 use Ramsey\Uuid\Uuid;
+
 
 class TaskController
 {
@@ -15,56 +17,72 @@ class TaskController
 		$this->service = $taskService;
 	}
 
-	public function taskCreate(ServerRequest $request) : String
+	public function taskCreate(ServerRequest $request) : Response
 	{
 		$taskName = $request->getQueryParams()['name'];
 		$taskBody = $request->getQueryParams()['body'];
-		
-
 		$uuid = $this->service->taskCreate($taskName, $taskBody);
 		$result = $uuid->toString();
+		$json = json_encode($result);
+		$response = new Response();
+		$response->getBody()->write($json);
 
-		return json_encode($result);
+		return $response;
 	}
 
-	public function taskBodyUpdate(ServerRequest $request) : String
+	public function taskBodyUpdate(ServerRequest $request) : Response
 	{
 		$uuid = Uuid::fromString($request->getAttribute('uuid'));
 		$body = $request->getQueryParams()['body'];
 		$result = $this->service->taskBodyUpdate($uuid, $body);
+		$json = json_encode($result);
+		$response = new Response();
+		$response->getBody()->write($json);
 
-		return json_encode($result);
+		return $response;
 	}
 
-	public function taskStatusUpdate(ServerRequest $request) : String
+	public function taskStatusUpdate(ServerRequest $request) : Response
 	{
 		$uuid = Uuid::fromString($request->getAttribute('uuid'));
 		$status = $request->getQueryParams()['status'];
 		$result = $this->service->taskStatusUpdate($uuid, $status);
+		$json = json_encode($result);
+		$response = new Response();
+		$response->getBody()->write($json);
 
-		return json_encode($result);
+		return $response;
 	}
 
-	public function taskDelete(ServerRequest $request) : String
+	public function taskDelete(ServerRequest $request) : Response
 	{
 		$uuid = Uuid::fromString($request->getAttribute('uuid'));
-		$result = $this->servide->taskDelete($uuid);
+		$result = $this->service->taskDelete($uuid);
+		$json = json_encode($result);
+		$response = new Response();
+		$response->getBody()->write($json);
 
-		return json_encode($result);
+		return $response;
 	}
 
-	public function find(ServerRequest $request) : String
+	public function find(ServerRequest $request) : Response
 	{	
 		$uuid = Uuid::fromString($request->getAttribute('uuid'));
-		$taskData = $this->service->find($uuid);
+		$result = $this->service->find($uuid);
+		$json = json_encode($result);
+		$response = new Response();
+		$response->getBody()->write($json);
 
-		return json_encode($taskData);
+		return $response;
 	}
 
-	public function findAll(ServerRequest $request) : String
+	public function findAll(ServerRequest $request) : Response
 	{
-		$taskAll = json_encode($this->service->findAll());
+		$result = json_encode($this->service->findAll());
+		$json = json_encode($result);
+		$response = new Response();
+		$response->getBody()->write($json);
 
-		return $taskAll;
+		return $response;
 	}
 }

@@ -9,9 +9,9 @@ use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 use Zend\Diactoros\Response;
 use Zend\Diactoros\ServerRequest;
 
-set_exception_handler(function (Exception $exception) {
-    echo $exception->getMessage();
-});
+// set_exception_handler(function (Exception $exception) {
+//     echo $exception->getMessage();
+// });
 
 $config = Config::init();
 $di = new DependencyContainer($config);
@@ -30,56 +30,32 @@ $map = $routerContainer->getMap();
 
 $map->post('task.create', '/tasks', function (ServerRequest $request) use ($controller) : Response
 {
-    $result = $controller->taskCreate($request);
-    $response = new Response();
-    $response->getBody()->write($result);
-
-    return $response;
+    return $controller->taskCreate($request);
 });
 
 $map->put('task.body.update', '/tasks/{uuid}/body/update', function (ServerRequest $request) use ($controller) : Response
 {
-    $result = $controller->taskBodyUpdate($request);
-    $response = new Response();
-    $response->getBody()->write($result);
-
-    return $response;
+    return $controller->taskBodyUpdate($request);
 });
 
 $map->put('task.status.update', '/tasks/{uuid}/status/update', function (ServerRequest $request) use ($controller) : Response
 {
-    $result = $controller->taskStatusUpdate($request);
-    $response = new Response();
-    $response->getBody()->write($result);
-
-    return $response;
+    return $controller->taskStatusUpdate($request);
 });
 
 $map->delete('task.delete', '/tasks/{uuid}', function (ServerRequest $request) use ($controller) : Response
 {
-    $result = $controller->taskDelete($request);
-    $response = new Response();
-    $response->getBody()->write($result);
-
-    return $response;
+    return $controller->taskDelete($request);
 });
 
 $map->get('task', '/tasks/{uuid}', function (ServerRequest $request) use ($controller) : Response
 {
-    $result = $controller->find($request);
-    $response = new Response();
-    $response->getBody()->write($result);
-    
-    return $response;
+    return $controller->find($request);
 });
 
 $map->get('task.all', '/tasks', function (ServerRequest $request) use ($controller) : Response
-{
-    $result = $controller->findAll($request);
-    $response = new Response();
-    $response->getBody()->write($result);
-    
-    return $response;
+{   
+    return $controller->findAll($request);
 });
 
 $matcher = $routerContainer->getMatcher();
