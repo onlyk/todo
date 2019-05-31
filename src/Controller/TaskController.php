@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\TaskService;
 use Zend\Diactoros\ServerRequest;
 use Ramsey\Uuid\Uuid;
 
@@ -19,7 +20,7 @@ class TaskController
 		$taskName = $request->getQueryParams()['name'];
 		$taskBody = $request->getQueryParams()['body'];
 		
-		$service->getErrors()
+
 		$uuid = $this->service->taskCreate($taskName, $taskBody);
 		$result = $uuid->toString();
 

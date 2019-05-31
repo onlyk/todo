@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
-use App\TaskData;
+use App\Entity\TaskData;
 
 class TaskRepository
 {

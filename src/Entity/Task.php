@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\TaskData;
+use App\Entity\TaskData;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 

@@ -2,8 +2,8 @@
 
 namespace App\Service;
 
-use App\Task;
-use App\TaskData;
+use App\Entity\Task;
+use App\Entity\TaskData;
 use Ramsey\Uuid\Uuid;
 use App\Validator\NewTaskValidator;
 

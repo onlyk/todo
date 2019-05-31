@@ -1,11 +1,11 @@
 <?php
 namespace App\DependencyContainer;
 
-use app\Connect\Config;
+use App\Connect\Config;
 use App\Connect\Connect;
-use App\TaskController;
-use App\TaskService;
-use App\TaskRepository;
+use App\Controller\TaskController;
+use App\Service\TaskService;
+use App\Repository\TaskRepository;
 
 class DependencyContainer
 {
