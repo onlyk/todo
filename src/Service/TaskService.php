@@ -1,14 +1,16 @@
 <?php 
 
-namespace App;
+namespace App\Service;
 
 use App\Task;
 use App\TaskData;
 use Ramsey\Uuid\Uuid;
+use App\Validator\NewTaskValidator;
 
 class TaskService
 {
 	private $repository;
+	private $errors;
 
 	public function __construct($taskRepository)
 	{	

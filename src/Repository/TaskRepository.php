@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Repository;
 
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;

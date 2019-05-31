@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Entity;
 
 use App\TaskData;
 use Ramsey\Uuid\Uuid;

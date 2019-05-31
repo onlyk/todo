@@ -1,5 +1,5 @@
 <?php
-namespace App;
+namespace App\DependencyContainer;
 
 use app\Connect\Config;
 use App\Connect\Connect;

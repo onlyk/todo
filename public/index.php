@@ -28,13 +28,6 @@ $request = Zend\Diactoros\ServerRequestFactory::fromGlobals(
 $routerContainer = new Aura\Router\RouterContainer();
 $map = $routerContainer->getMap();
 
-$map->get('text', '/test', function (ServerRequest $request) : Response
-{
-    $response = new Response();
-    $response = $response->withStatus(418, "I’m a teapot");
-    return $response;
-});
-
 $map->post('task.create', '/tasks', function (ServerRequest $request) use ($controller) : Response
 {
     $result = $controller->taskCreate($request);
@@ -44,7 +37,7 @@ $map->post('task.create', '/tasks', function (ServerRequest $request) use ($cont
     return $response;
 });
 
-$map->post('task.body.update', '/tasks/{uuid}/body/update', function (ServerRequest $request) use ($controller) : Response
+$map->put('task.body.update', '/tasks/{uuid}/body/update', function (ServerRequest $request) use ($controller) : Response
 {
     $result = $controller->taskBodyUpdate($request);
     $response = new Response();
@@ -53,13 +46,12 @@ $map->post('task.body.update', '/tasks/{uuid}/body/update', function (ServerRequ
     return $response;
 });
 
-$map->post('task.status.update', '/tasks/{uuid}/status/update', function (ServerRequest $request) use ($controller) : Response
+$map->put('task.status.update', '/tasks/{uuid}/status/update', function (ServerRequest $request) use ($controller) : Response
 {
     $result = $controller->taskStatusUpdate($request);
     $response = new Response();
 
     $response->getBody()->write($result);
-    
     return $response;
 });
 
@@ -68,16 +60,17 @@ $map->delete('task.delete', '/tasks/{uuid}', function (ServerRequest $request) u
     $result = $controller->taskDelete($request);
     $response = new Response();
     $response->getBody()->write($result);
-
+    $response->
     return $response;
 });
 
 $map->get('task', '/tasks/{uuid}', function (ServerRequest $request) use ($controller) : Response
 {
+    $response = $controller->find($request);
     $result = $controller->find($request);
     $response = new Response();
     $response->getBody()->write($result);
-
+    $response->setStatusCode($code);
     return $response;
 });
 

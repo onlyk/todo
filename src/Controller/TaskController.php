@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Controller;
 
 use Zend\Diactoros\ServerRequest;
 use Ramsey\Uuid\Uuid;
@@ -18,6 +18,8 @@ class TaskController
 	{
 		$taskName = $request->getQueryParams()['name'];
 		$taskBody = $request->getQueryParams()['body'];
+		
+		$service->getErrors()
 		$uuid = $this->service->taskCreate($taskName, $taskBody);
 		$result = $uuid->toString();
 
@@ -51,7 +53,7 @@ class TaskController
 	}
 
 	public function find(ServerRequest $request) : String
-	{
+	{	
 		$uuid = Uuid::fromString($request->getAttribute('uuid'));
 		$taskData = $this->service->find($uuid);
 
