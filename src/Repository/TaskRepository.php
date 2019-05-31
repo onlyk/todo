@@ -68,7 +68,7 @@ class TaskRepository
 	
 	public function delete($uuid) 
 	{
-		$stmt = $this->pdo->prepare("DELETE * FROM tasks WHERE uuid = :uuid");
+		$stmt = $this->pdo->prepare("DELETE FROM tasks WHERE uuid = :uuid");
 		$stmt->execute([':uuid' => $uuid]);
 	}
 
