@@ -9,9 +9,9 @@ use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 use Zend\Diactoros\Response;
 use Zend\Diactoros\ServerRequest;
 
-// set_exception_handler(function (Exception $exception) {
-//     echo $exception->getMessage();
-// });
+set_exception_handler(function (Exception $exception) {
+    echo $exception->getMessage();
+});
 
 $config = Config::init();
 $di = new DependencyContainer($config);
@@ -50,8 +50,8 @@ $map->put('task.status.update', '/tasks/{uuid}/status/update', function (ServerR
 {
     $result = $controller->taskStatusUpdate($request);
     $response = new Response();
-
     $response->getBody()->write($result);
+
     return $response;
 });
 
@@ -60,6 +60,7 @@ $map->delete('task.delete', '/tasks/{uuid}', function (ServerRequest $request) u
     $result = $controller->taskDelete($request);
     $response = new Response();
     $response->getBody()->write($result);
+
     return $response;
 });
 
@@ -68,6 +69,7 @@ $map->get('task', '/tasks/{uuid}', function (ServerRequest $request) use ($contr
     $result = $controller->find($request);
     $response = new Response();
     $response->getBody()->write($result);
+    
     return $response;
 });
 
