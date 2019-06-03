@@ -26,6 +26,7 @@ class TaskController
 		$json = json_encode($result);
 		$response = new Response();
 		$response->getBody()->write($json);
+		$response = $response->withStatus('201');
 
 		return $response;
 	}

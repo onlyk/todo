@@ -8,23 +8,21 @@ use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 
 class Task
 {
-    private $taskData;
+    private $uuid;
+    private $name;
+    private $body;
+    private $status;
 
     private function __construct(Uuid $uuid, String $name, String $body, String $status)
     {   
-        $this->taskData = new TaskData($uuid, $name, $body, $status);
+        $this->uuid = $uuid;
+        $this->name = $name;
+        $this->body = $body;
+        $this->status = $status;
     }
     
     public static function createNew(String $name, String $body) : self
     {
-        if (strlen($name) < 3) {
-            throw new \Exception('Задача не может быть создана, т.к имя меньше трех символов');
-        }
-
-        if (strlen($body) < 3) {
-            throw new \Exception('Задача не может быть создана, т.к содержит меньше трех символов');
-        }
-
         $uuid = Uuid::uuid4();
         $status = 'new';
 
@@ -42,15 +40,15 @@ class Task
             throw new \Exception('Задача не изменена, т.к содержит меньше трех символов');
         }
 
-        if ($this->taskData->status === 'done') {
+        if ($this->status === 'done') {
             throw new \Exception('Задача не может быть изменена, т.к ее статус: done');
         }
 
-        if ($this->taskData->body === 'canceled') {
+        if ($this->body === 'canceled') {
             throw new \Exception('Задача не может быть изменена, т.к ее статус: canceled');
         }
         
-        $this->taskData->body = $body;
+        $this->body = $body;
     }
 
     public function taskStatusUpdate(String $status)
@@ -59,20 +57,24 @@ class Task
         if (!in_array($status, $possibleStatuses)) {
             throw new \Exception('Изменить статус нельзя, т.к возможные статусы: done, wip, canceled');
         }
-        if ($status === 'canceled' && $this->taskData->status === 'done') {
+        if ($status === 'canceled' && $this->status === 'done') {
             throw new \Exception('Задачу нельзя изменить, она уже выполнена');
         }
 
-        if ($status === 'done' && $this->taskData->status === 'canceled') {
+        if ($status === 'done' && $this->status === 'canceled') {
             throw new \Exception('Задачу нельзя выполнить, она отменена');
         }
 
-        $this->taskData->status = $status;
+        $this->status = $status;
     }
 
     public function getTaskData() : TaskData
     {
-        return $this->taskData;
+        return new TaskData(
+            $this->uuid,
+            $this->name,
+            $this->body,
+            $this->status);
     }
 
 }

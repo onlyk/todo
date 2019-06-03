@@ -13,10 +13,6 @@ use Zend\Diactoros\ServerRequest;
 //     echo $exception->getMessage();
 // });
 
-$config = Config::init();
-$di = new DependencyContainer($config);
-$controller = $di->getTaskController();
-
 $request = Zend\Diactoros\ServerRequestFactory::fromGlobals(
     $_SERVER,
     $_GET,
@@ -27,6 +23,10 @@ $request = Zend\Diactoros\ServerRequestFactory::fromGlobals(
 
 $routerContainer = new Aura\Router\RouterContainer();
 $map = $routerContainer->getMap();
+
+$config = Config::init();
+$di = new DependencyContainer($config);
+$controller = $di->getTaskController();
 
 $map->post('task.create', '/tasks', function (ServerRequest $request) use ($controller) : Response
 {

@@ -1,0 +1,399 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"Task",
+				"TaskService"
+			],
+			[
+				"json",
+				"json_encode"
+			],
+			[
+				"con",
+				"controller"
+			],
+			[
+				"req",
+				"request"
+			],
+			[
+				"resu",
+				"resultJson"
+			],
+			[
+				"jso",
+				"json_encode"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "src/Entity/Task.php",
+			"settings":
+			{
+				"buffer_size": 2031,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "public/index.php",
+			"settings":
+			{
+				"buffer_size": 2233,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "Чеклист: \n1. Git\n2. Composer\n3. OOP\n4. UID\n5. DTO \n6. Controller \n7. Data Hinting\n8. Named Constructors\n9. Router->Controller->Service(->entity)->Repository->DB\n10. Обработка ошибок \n\nTODO:\n1. Отрефакторить текущий код для правильной передачи ошибок и ответов\n2. Добавить сервис Validator\n3. Тайпхинты\n+4. Добавить директории\n\ntask.php\n\nВалидация\nDTO между слоями\nОбработка ошибок\nТайпхинты 1/2\nпереписать entity.\nдиректорий не хватает.\n\nсобсно у тебя целиком ответ от сервера неоч.\nпочему даже с ошибкой статус всегда будет 200?\nпочему часть ошибок вообще неадекватна? (запроси таску с несуществующим юидом)\nп",
+			"file": "README.md",
+			"file_size": 940,
+			"file_write_time": 132038869211624344,
+			"settings":
+			{
+				"buffer_size": 610,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/Entity/TaskData.php",
+			"settings":
+			{
+				"buffer_size": 321,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"Snippet: ",
+				"Snippet: REQUEST['…']"
+			]
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+	],
+	"file_history":
+	[
+		"/Users/skurt/dev/todo/todo.sublime-project",
+		"/Users/skurt/dev/todo/src/Entity/TaskData.php",
+		"/Users/skurt/dev/todo/src/Command/TaskCreateResult.php",
+		"/Users/skurt/dev/todo/src/Service/TaskService.php",
+		"/Users/skurt/dev/todo/src/Controller/TaskController.php",
+		"/Users/skurt/dev/todo/README.md",
+		"/Users/skurt/dev/todo/src/Entity/Task.php",
+		"/Users/skurt/dev/todo/src/Validator/NewTaskValidator.php",
+		"/Users/skurt/dev/todo/src/DependencyContainer/DependencyContainer.php",
+		"/Users/skurt/dev/todo/composer.json",
+		"/Users/skurt/dev/todo/src/Repository/TaskRepository.php",
+		"/Users/skurt/dev/todo/public/index.php",
+		"/Users/skurt/dev/todo/src/TaskRepository.php",
+		"/Users/skurt/dev/file.php",
+		"/Users/skurt/dev/todo/src/Task.php",
+		"/Users/skurt/dev/todo/src/TaskData.php",
+		"/Users/skurt/dev/todo/src/TaskService.php",
+		"/Users/skurt/dev/todo/src/TaskController.php",
+		"/Слайд 1",
+		"/Users/skurt/dev/todo/config.json",
+		"/Users/skurt/dev/todo/configsample.json",
+		"/Users/skurt/dev/todo/src/connect/Connect.php",
+		"/Users/skurt/dev/todo/src/connect/Config.php",
+		"/Users/skurt/dev/todo/src/DependencyContainer.php",
+		"/Users/skurt/Documents/hcmc",
+		"/Users/skurt/Documents/home.txt"
+	],
+	"find":
+	{
+		"height": 24.0
+	},
+	"find_in_files":
+	{
+		"height": 101.0,
+		"where_history":
+		[
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"fromString",
+			"from"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "src/Entity/Task.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2031,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								429,
+								429
+							]
+						],
+						"settings":
+						{
+							"rulers":
+							[
+							],
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true,
+							"wrap_width": 80
+						},
+						"translation.x": 0.0,
+						"translation.y": 75.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "public/index.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2233,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								699,
+								699
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true,
+							"wrap_width": 80
+						},
+						"translation.x": 0.0,
+						"translation.y": 153.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "README.md",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 610,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								610,
+								610
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Markdown/Markdown.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 3,
+					"file": "src/Entity/TaskData.php",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 321,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"translate_tabs_to_spaces": false,
+							"wrap_width": 80
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 24.0
+	},
+	"input":
+	{
+		"height": 36.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			0.489577349494,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "todo.sublime-project",
+	"replace":
+	{
+		"height": 44.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": false,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 192.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

@@ -21,7 +21,6 @@ class TaskService
 	{
 		$task = Task::createNew($name, $body);
 		$this->repository->store($task->getTaskData());
-
 		return $task->getTaskData()->uuid;
 	}
 
