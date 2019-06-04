@@ -28,10 +28,16 @@ class TaskService
 	{
 		$taskData = $this->repository->find($uuid);
 		$task = Task::createFromDTO($taskData);
-		$result = $task->taskBodyUpdate($body);
-		$this->repository->update($task->getTaskData());
+		$taskData = $task->taskBodyUpdate($body);
+		if (!$taskData->errors) {
+			$this->repository->update($task->getTaskData());
+			return 'Задача обновлена';
+		} else {
+			return 'ощьибка';
+		}
+		
 
-		return 'Задача обновлена';
+		
 	}
 
 	public function taskStatusUpdate(Uuid $uuid, String $status) : String

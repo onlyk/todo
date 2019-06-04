@@ -8,6 +8,7 @@ use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 
 class Task
 {
+    private $errors;
     private $uuid;
     private $name;
     private $body;
@@ -34,21 +35,34 @@ class Task
         return new self($taskData->uuid, $taskData->name, $taskData->body, $taskData->status);
     }
 
-    public function taskBodyUpdate(String $body)
+    public function taskBodyUpdate(String $body) : TaskData
     {   
+        $errors = [];
+
         if (strlen($body) < 3) {
-            throw new \Exception('Задача не изменена, т.к содержит меньше трех символов');
+            $errors[] = '101';
         }
 
         if ($this->status === 'done') {
-            throw new \Exception('Задача не может быть изменена, т.к ее статус: done');
+            $errors[] = '102';
         }
 
-        if ($this->body === 'canceled') {
-            throw new \Exception('Задача не может быть изменена, т.к ее статус: canceled');
+        if ($this->status === 'canceled') {
+            $errors[] = '103';
         }
         
-        $this->body = $body;
+        if (!$errors) {
+            $this->body = $body;
+        }
+        
+
+        return new TaskData(
+            $errors,
+            $this->uuid,
+            $this->name,
+            $this->body,
+            $this->status);
+
     }
 
     public function taskStatusUpdate(String $status)
@@ -70,7 +84,7 @@ class Task
 
     public function getTaskData() : TaskData
     {
-        return new TaskData(
+        return new TaskData([],
             $this->uuid,
             $this->name,
             $this->body,
