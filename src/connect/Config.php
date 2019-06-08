@@ -26,7 +26,7 @@ class Config
                 $params['user'], 
                 $params['password']);
 
-		$this->options = $params['opt']
+		$this->options = $params['opt'];
 	}
 
 	public static function init() : self
@@ -34,11 +34,11 @@ class Config
 		return new self;
 	}
 
-	public function getConnectString() : array
+	public function getConnectString() : string
 	{
 		return $this->config;
 	}
-	
+
 	public function getOptions() : array
 	{
 		return $this->options;

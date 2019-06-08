@@ -19,26 +19,33 @@ class TaskService
 
 	public function taskCreate(string $name, string $body) : Uuid
 	{	
+		// 1. Принять данные
+		// 2. Засунуть в DTO 
+		// 3. Проваладировать DTO
+		// 5. Закинуть DTO в БД
+		// 6. 
 		$uuid = Uuid::uuid4();
         $status = 'new';
 		$taskData = new TaskData($uuid, $name, $body, $status);
 		$newTaskValidator = new NewTaskValidator();
-		$validationErrors = $newTaskValidator($name, $body)
+		$validationErrors = $newTaskValidator($name, $body);	
 		if(!$validationErrors) {
-			$task = Task::taskCreate($taskData)
+			$this->repository->store($taskData);
+		} else {
+			return $validationErrors;
 		}
-		$task = Task::createNew($uuid, $name, $body, $status);
-		$this->repository->store($task->getTaskData());
+		
+		
 		return $task->getTaskData()->uuid;
 	}
 
 	public function taskBodyUpdate(Uuid $uuid, string $body) : string
 	{
 		$taskData = $this->repository->find($uuid);
-		$task = Task::createFromDTO($taskData);
+		$task = Task::taskCreate($taskData);
 		$taskData = $task->taskBodyUpdate($body);
 		if (!$taskData->errors) {
-			$this->repository->update($task->getTaskData());
+			$this->repository->update($taskData);
 			return 'Задача обновлена';
 		} else {
 			return $taskData->body;

@@ -17,11 +17,11 @@ class Task
 
     private function __construct(Uuid $uuid, string $name, string $body, string $status)
     {   
-        $this->errors = [];
         $this->uuid = $uuid;
         $this->name = $name;
         $this->body = $body;
         $this->status = $status;
+        $this->errors = [];
     }
     
     public static function taskCreate(TaskData $taskData) : self
@@ -45,7 +45,6 @@ class Task
         }
 
         return new TaskData(
-            $this->errors,
             $this->uuid,
             $this->name,
             $this->body,
@@ -68,7 +67,6 @@ class Task
         }
         
         return new TaskData(
-            $this->errors,
             $this->uuid,
             $this->name,
             $this->body,

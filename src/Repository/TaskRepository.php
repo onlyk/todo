@@ -20,7 +20,11 @@ class TaskRepository
 		$stmt = $this->pdo->prepare("SELECT * FROM tasks WHERE uuid = :uuid");
 		$stmt->execute([':uuid' => $uuid]);
 		$data = $stmt->fetch(\PDO::FETCH_ASSOC);
-		$taskData = new TaskData([],
+		$errors = [];
+		if (!$data) {
+			$errors[] = '303';
+		}
+		$taskData = new TaskData(
 			Uuid::fromString($data['uuid']),
 			$data['name'], 
 			$data['body'], 
