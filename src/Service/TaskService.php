@@ -17,14 +17,22 @@ class TaskService
 		$this->repository = $taskRepository;
 	}
 
-	public function taskCreate(String $name, String $body) : Uuid
-	{
-		$task = Task::createNew($name, $body);
+	public function taskCreate(string $name, string $body) : Uuid
+	{	
+		$uuid = Uuid::uuid4();
+        $status = 'new';
+		$taskData = new TaskData($uuid, $name, $body, $status);
+		$newTaskValidator = new NewTaskValidator();
+		$validationErrors = $newTaskValidator($name, $body)
+		if(!$validationErrors) {
+			$task = Task::taskCreate($taskData)
+		}
+		$task = Task::createNew($uuid, $name, $body, $status);
 		$this->repository->store($task->getTaskData());
 		return $task->getTaskData()->uuid;
 	}
 
-	public function taskBodyUpdate(Uuid $uuid, String $body) : String
+	public function taskBodyUpdate(Uuid $uuid, string $body) : string
 	{
 		$taskData = $this->repository->find($uuid);
 		$task = Task::createFromDTO($taskData);
@@ -33,14 +41,11 @@ class TaskService
 			$this->repository->update($task->getTaskData());
 			return 'Задача обновлена';
 		} else {
-			return 'ощьибка';
+			return $taskData->body;
 		}
-		
-
-		
 	}
 
-	public function taskStatusUpdate(Uuid $uuid, String $status) : String
+	public function taskStatusUpdate(Uuid $uuid, string $status) : string
 	{
 		$taskData = $this->repository->find($uuid);
 		$task = Task::createFromDTO($taskData);
@@ -50,7 +55,7 @@ class TaskService
 		return 'Статус задачи обновлен';
 	}
 
-	public function taskDelete(Uuid $uuid) : String
+	public function taskDelete(Uuid $uuid) : string
 	{
 		$this->repository->delete($uuid);
 

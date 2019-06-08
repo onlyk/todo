@@ -4,7 +4,7 @@ namespace App\Validator;
 
 class NewTaskValidator
 {
-	public function validate(String $name, String $body) : Array
+	public function validate(string $name, string $body) : Array
 	{
 		$errors = [];
 		if (strlen($name) < 3) {
