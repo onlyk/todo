@@ -22,16 +22,15 @@ class TaskRepository
 		$data = $stmt->fetch(\PDO::FETCH_ASSOC);
 		$errors = [];
 		if (!$data) {
-			$errors[] = '303';
+			return new TaskData()
 		}
-		$taskData = new TaskData(
+
+		return new TaskData(
 			Uuid::fromString($data['uuid']),
 			$data['name'], 
 			$data['body'], 
-			$data['status']
+			$data['status'],
 		);
-
-		return $taskData;
 	}
 
 	public function findAll() : Array

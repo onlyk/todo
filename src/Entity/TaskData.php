@@ -11,7 +11,7 @@ class TaskData
 	public $body;
 	public $status;
 
-	public function __construct(Uuid $uuid, string $name, string $body, string $status, array $errors = [])
+	public function __construct(Uuid $uuid = null, string $name = null, string $body = null, string $status = null, array $errors = [])
 	{
 		$this->errors = $errors;
 		$this->uuid = $uuid;
