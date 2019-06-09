@@ -19,8 +19,8 @@ class UpdateTaskBodyValidator
             $this->errors[] = 'invalid uuid';
         }
 
-        if (strlen($body) >= 10485760) {
-            $this->errors[] = 'body out of border';
+        if (strlen($status) >= 10485760) {
+            $this->errors[] = 'status out of border';
         }
 
         return $this->errors;
