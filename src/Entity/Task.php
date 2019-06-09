@@ -31,9 +31,6 @@ class Task
 
     public function taskBodyUpdate(string $body) : TaskData
     {   
-        if (strlen($body) < 3) {
-            $this->errors[] = 'Invalid length';
-        }
         if ($this->status === 'done') {
             $this->errors[] = 'done';
         }
