@@ -32,45 +32,44 @@ class Task
     public function taskBodyUpdate(string $body) : TaskData
     {   
         if (strlen($body) < 3) {
-            $this->errors[] = '101';
+            $this->errors[] = 'Invalid length';
         }
         if ($this->status === 'done') {
-            $this->errors[] = '102';
+            $this->errors[] = 'done';
         }
         if ($this->status === 'canceled') {
-            $this->errors[] = '103';
+            $this->errors[] = 'canceled';
         }
         if (!$this->$errors) {
             $this->body = $body;
         }
-
-        return new TaskData(
-            $this->uuid,
-            $this->name,
-            $this->body,
-            $this->status);
     }
 
     public function taskStatusUpdate(string $status) : TaskData
     {   
         if (!in_array($status, static::POSSIBLE_STATUSES)) {
-            $this->errors[] = '201';
+            $this->errors[] = 'Invalid status';
         }
         if ($status === 'canceled' && $this->status === 'done') {
-            $this->errors[] = '202';
+            $this->errors[] = 'done';
         }
         if ($status === 'done' && $this->status === 'canceled') {
-            $this->errors[] = '203';
+            $this->errors[] = 'canceled';
         }
-        if ($this->errors) {
+        if (!$this->errors) {
             $this->status = $status;
         }
-        
+    }
+
+    public function getTaskData() : TaskData
+    {
         return new TaskData(
             $this->uuid,
             $this->name,
             $this->body,
-            $this->status);
+            $this->status,
+            $this->errors
+        );
     }
 
 }
