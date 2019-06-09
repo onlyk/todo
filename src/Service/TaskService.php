@@ -6,6 +6,7 @@ use App\Entity\Task;
 use App\Entity\TaskData;
 use Ramsey\Uuid\Uuid;
 use App\Validator\NewTaskValidator;
+use App\Comand\TaskCreateComand;
 
 class TaskService
 {
@@ -23,20 +24,21 @@ class TaskService
 		// 2. Засунуть в DTO 
 		// 3. Проваладировать DTO
 		// 5. Закинуть DTO в БД
-		// 6. 
 		$uuid = Uuid::uuid4();
         $status = 'new';
+
 		$taskData = new TaskData($uuid, $name, $body, $status);
+
 		$newTaskValidator = new NewTaskValidator();
 		$validationErrors = $newTaskValidator($name, $body);	
 		if(!$validationErrors) {
 			$this->repository->store($taskData);
+			$result = new TaskCreateComand('ok', $uuid);
 		} else {
-			return $validationErrors;
+			$result = new TaskCreateComand('invalid data');
 		}
 		
-		
-		return $task->getTaskData()->uuid;
+		return $result;
 	}
 
 	public function taskBodyUpdate(Uuid $uuid, string $body) : string

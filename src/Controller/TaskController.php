@@ -21,6 +21,7 @@ class TaskController
 	{
 		$taskName = $request->getQueryParams()['name'];
 		$taskBody = $request->getQueryParams()['body'];
+
 		$uuid = $this->service->taskCreate($taskName, $taskBody);
 		$result = $uuid->toString();
 		$json = json_encode($result);
@@ -35,6 +36,7 @@ class TaskController
 	{
 		$uuid = Uuid::fromString($request->getAttribute('uuid'));
 		$body = $request->getQueryParams()['body'];
+
 		$result = $this->service->taskBodyUpdate($uuid, $body);
 		$json = json_encode($result);
 		$response = new Response();
@@ -47,6 +49,7 @@ class TaskController
 	{
 		$uuid = Uuid::fromString($request->getAttribute('uuid'));
 		$status = $request->getQueryParams()['status'];
+
 		$result = $this->service->taskStatusUpdate($uuid, $status);
 		$json = json_encode($result);
 		$response = new Response();
@@ -58,6 +61,7 @@ class TaskController
 	public function taskDelete(ServerRequest $request) : Response
 	{
 		$uuid = Uuid::fromString($request->getAttribute('uuid'));
+
 		$result = $this->service->taskDelete($uuid);
 		$json = json_encode($result);
 		$response = new Response();
@@ -69,6 +73,7 @@ class TaskController
 	public function find(ServerRequest $request) : Response
 	{	
 		$uuid = Uuid::fromString($request->getAttribute('uuid'));
+
 		$result = $this->service->find($uuid);
 		$json = json_encode($result);
 		$response = new Response();
@@ -80,6 +85,7 @@ class TaskController
 	public function findAll(ServerRequest $request) : Response
 	{
 		$result = json_encode($this->service->findAll());
+		
 		$json = json_encode($result);
 		$response = new Response();
 		$response->getBody()->write($json);
