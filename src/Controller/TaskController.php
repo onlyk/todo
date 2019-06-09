@@ -40,19 +40,23 @@ class TaskController
 
 	public function find(ServerRequest $request) : Response
 	{	
-		$uuid = Uuid::fromString($request->getAttribute('uuid'));
+		$uuid =$request->getAttribute('uuid');
 
 		$result = $this->service->find($uuid);
-		if ($result->errors) {
-			$JsonData = json_encode($result->errors);
+		if (!$result->errors) {
+			$JsonData = json_encode($result->data);
 			$response = new Response();
 			$response->getBody()->write($JsonData);
 			$response = $response->withStatus('200');
 		} else {
-			$JsonData = json_encode($result->data);
+			$JsonData = json_encode($result->errors);
 			$response = new Response();
 			$response->getBody()->write($JsonData);
-			$response = $response->withStatus('404');
+			if (in_array('invalid uuid', $result->errors)) {
+				$response = $response->withStatus('400');
+			} elseif (in_array('not found', $result->errors)) {
+				$response = $response->withStatus('404');
+			}
 		}
 
 		return $response;
@@ -79,7 +83,7 @@ class TaskController
 
 	public function taskBodyUpdate(ServerRequest $request) : Response
 	{
-		$uuid = Uuid::fromString($request->getAttribute('uuid'));
+		$uuid = $request->getAttribute('uuid');
 		$body = $request->getQueryParams()['body'];
 
 		$result = $this->service->taskBodyUpdate($uuid, $body);

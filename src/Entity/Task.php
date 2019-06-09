@@ -29,7 +29,7 @@ class Task
         return new self($taskData->uuid, $taskData->name, $taskData->body, $taskData->status);
     }
 
-    public function taskBodyUpdate(string $body) : TaskData
+    public function taskBodyUpdate(string $body) : array
     {   
         if ($this->status === 'done') {
             $this->errors[] = 'done';
@@ -44,7 +44,7 @@ class Task
         return $this->errors;
     }
 
-    public function taskStatusUpdate(string $status) : TaskData
+    public function taskStatusUpdate(string $status) : array
     {   
         if (!in_array($status, static::POSSIBLE_STATUSES)) {
             $this->errors[] = 'Invalid status';
@@ -68,7 +68,7 @@ class Task
             $this->uuid,
             $this->name,
             $this->body,
-            $this->status,
+            $this->status
         );
     }
 

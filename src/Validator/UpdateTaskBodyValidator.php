@@ -2,6 +2,8 @@
 
 namespace App\Validator; 
 
+use Ramsey\Uuid\Uuid;
+
 class UpdateTaskBodyValidator
 {
     private $errors;

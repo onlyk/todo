@@ -17,7 +17,7 @@ class FindTaskValidator
 	{
 		$isValid = Uuid::isValid($uuid);
 		if (!$isValid) {
-			$this->errors[] = 'invalid';
+			$this->errors[] = 'invalid uuid';
 		}
 
 		return $this->errors;

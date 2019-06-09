@@ -6,6 +6,10 @@ use App\Entity\Task;
 use App\Entity\TaskData;
 use Ramsey\Uuid\Uuid;
 use App\Validator\NewTaskValidator;
+use App\Validator\UpdateTaskBodyValidator;
+use App\Validator\FindTaskValidator;
+use App\Validator\DeleteTaskValidator;
+use App\Validator\UpdateTaskStatusValidator;
 use App\Comand\TaskCreateComand;
 use App\Service\ServiceResult;
 use App\Service\ServiceFindAllResult;
@@ -37,39 +41,17 @@ class TaskService
 		return new ServiceResult(null, $taskData);
 	}
 
-	public function taskBodyUpdate(Uuid $uuid, string $body) : ServiceResult
-	{
-		$taskData = $this->repository->find($uuid);
-		$task = Task::taskCreate($taskData);
-		$taskData = $task->taskBodyUpdate($body);
-		if (!$taskData->errors) {
-			$this->repository->update($taskData);
-			return 'Задача обновлена';
-		} else {
-			return $taskData->body;
-		}
-	}
-
-	public function taskStatusUpdate(Uuid $uuid, string $status) : ServiceResult
-	{
-		$taskData = $this->repository->find($uuid);
-		$task = Task::createFromDTO($taskData);
-		$result = $task->taskStatusUpdate($status);
-		$this->repository->update($task->getTaskData());
-
-		return 'Статус задачи обновлен';
-	}
-
-	public function taskDelete(Uuid $uuid) : ServiceResult
-	{
-		$this->repository->delete($uuid);
-
-		return 'Задача удалена';
-	}
-
-	public function find(Uuid $uuid) : ServiceResult
+	public function find(string $uuid) : ServiceResult
 	{	
+		$validator = new FindTaskValidator();
+		$validationErrors = $validator->validate($uuid);
+		if ($validationErrors) {
+			return new ServiceResult($validationErrors, null);
+		}
+
+		$uuid = Uuid::fromString($uuid);
 		$repositoryResult = $this->repository->find($uuid);
+
 		if ($repositoryResult->errors) {
 			return new ServiceResult($repositoryResult->errors, null);
 		}
@@ -85,5 +67,74 @@ class TaskService
 		}
 
 		return new ServiceFindAllResult(null, $repositoryResult->data);
+	}
+
+	public function taskBodyUpdate(string $uuid, string $body) : ServiceResult
+	{
+		$validator = new UpdateTaskBodyValidator();
+		$validationErrors = $validator->validate($uuid, $body);
+		if ($validationErrors) {
+			return new ServiceResult($validationErrors, null);
+		}
+
+		$uuid = Uuid::fromString($uuid);
+		$repositoryResult = $this->repository->find($uuid);
+
+		if ($repositoryResult->errors) {
+			return new ServiceResult($repositoryResult->errors, null);
+		}
+
+		$taskData = $repositoryResult->data;
+		$task = Task::taskCreate($taskData);
+		$entityErrors = $task->taskBodyUpdate($body);
+		if ($entityErrors) {
+			return new ServiceResult($entityErrors, null);
+		}
+
+		return new ServiceResult(null, $task->getTaskData());
+	}
+
+	public function taskStatusUpdate(Uuid $uuid, string $status) : ServiceResult
+	{
+		$validator = new UpdateTaskStatusValidator();
+		$validationErrors = $validator->validate($uuid, $status);
+		if ($validationErrors) {
+			return new ServiceResult($validationErrors, null);
+		}
+
+		$uuid = Uuid::fromString($uuid);
+		$repositoryResult = $this->repository->find($uuid);
+
+		if ($repositoryResult->errors) {
+			return new ServiceResult($repositoryResult->errors, null);
+		}
+
+		$taskData = $repositoryResult->data;
+		$task = Task::taskCreate($taskData);
+		$entityErrors = $task->taskStatusUpdate($status);
+		if ($entityErrors) {
+			return new ServiceResult($entityErrors, null);
+		}
+
+		return new ServiceResult(null, $task->getTaskData());
+	}
+
+	public function taskDelete(Uuid $uuid) : ServiceResult
+	{
+
+		$validator = new DeleteTaskValidator();
+		$validationErrors = $validator->validate($uuid);
+		if ($validationErrors) {
+			return new ServiceResult($validationErrors, null);
+		}
+
+		$uuid = Uuid::fromString($uuid);
+		$repositoryResult = $this->repository->delete($uuid);
+
+		if ($repositoryResult->errors) {
+			return new ServiceResult($repositoryResult->errors, null);
+		}
+
+		return new ServiceResult(null, $repositoryResult->data);
 	}
 }
