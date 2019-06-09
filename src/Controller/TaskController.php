@@ -22,12 +22,57 @@ class TaskController
 		$taskName = $request->getQueryParams()['name'];
 		$taskBody = $request->getQueryParams()['body'];
 
-		$uuid = $this->service->taskCreate($taskName, $taskBody);
-		$result = $uuid->toString();
-		$json = json_encode($result);
-		$response = new Response();
-		$response->getBody()->write($json);
-		$response = $response->withStatus('201');
+		$result = $this->service->taskCreate($taskName, $taskBody);
+		if (!$result->errors) {
+			$JsonData = json_encode($result->data);
+			$response = new Response();
+			$response->getBody()->write($JsonData);
+			$response = $response->withStatus('201');
+		} else {
+			$JsonData = json_encode($result->errors);
+			$response = new Response();
+			$response->getBody()->write($JsonData);
+			$response = $response->withStatus('400');
+		}
+		
+		return $response;
+	}
+
+	public function find(ServerRequest $request) : Response
+	{	
+		$uuid = Uuid::fromString($request->getAttribute('uuid'));
+
+		$result = $this->service->find($uuid);
+		if ($result->errors) {
+			$JsonData = json_encode($result->errors);
+			$response = new Response();
+			$response->getBody()->write($JsonData);
+			$response = $response->withStatus('200');
+		} else {
+			$JsonData = json_encode($result->data);
+			$response = new Response();
+			$response->getBody()->write($JsonData);
+			$response = $response->withStatus('404');
+		}
+
+		return $response;
+	}	
+
+	public function findAll(ServerRequest $request) : Response
+	{
+		$result = $this->service->findAll();
+		
+		if (!$result->errors) {
+			$jsonData = json_encode($result->data);
+			$response = new Response();
+			$response->getBody()->write($jsonData);
+			$response = $response->withStatus('200');
+		} else {
+			$jsonData = json_encode($result->errors);
+			$response = new Response();
+			$response->getBody()->write($jsonData);
+			$response = $response->withStatus('404');
+		}
 
 		return $response;
 	}
@@ -70,26 +115,5 @@ class TaskController
 		return $response;
 	}
 
-	public function find(ServerRequest $request) : Response
-	{	
-		$uuid = Uuid::fromString($request->getAttribute('uuid'));
 
-		$result = $this->service->find($uuid);
-		$json = json_encode($result);
-		$response = new Response();
-		$response->getBody()->write($json);
-
-		return $response;
-	}
-
-	public function findAll(ServerRequest $request) : Response
-	{
-		$result = json_encode($this->service->findAll());
-		
-		$json = json_encode($result);
-		$response = new Response();
-		$response->getBody()->write($json);
-
-		return $response;
-	}
 }

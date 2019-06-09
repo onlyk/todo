@@ -9,9 +9,9 @@ use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 use Zend\Diactoros\Response;
 use Zend\Diactoros\ServerRequest;
 
-set_exception_handler(function (Exception $exception) {
-    echo $exception->getMessage();
-});
+// set_exception_handler(function (Exception $exception) {
+//     echo $exception->getMessage();
+// });
 
 $request = Zend\Diactoros\ServerRequestFactory::fromGlobals(
     $_SERVER,

@@ -7,6 +7,8 @@ use App\Entity\TaskData;
 use Ramsey\Uuid\Uuid;
 use App\Validator\NewTaskValidator;
 use App\Comand\TaskCreateComand;
+use App\Service\ServiceResult;
+use App\Service\ServiceFindAllResult;
 
 class TaskService
 {
@@ -18,30 +20,24 @@ class TaskService
 		$this->repository = $taskRepository;
 	}
 
-	public function taskCreate(string $name, string $body) : Uuid
+	public function taskCreate(string $name, string $body) : ServiceResult
 	{	
-		// 1. Принять данные
-		// 2. Засунуть в DTO 
-		// 3. Проваладировать DTO
-		// 5. Закинуть DTO в БД
 		$uuid = Uuid::uuid4();
         $status = 'new';
-
 		$taskData = new TaskData($uuid, $name, $body, $status);
-
 		$newTaskValidator = new NewTaskValidator();
-		$validationErrors = $newTaskValidator($name, $body);	
-		if(!$validationErrors) {
-			$this->repository->store($taskData);
-			$result = new TaskCreateComand('ok', $uuid);
-		} else {
-			$result = new TaskCreateComand('invalid data');
+		$validationErrors = $newTaskValidator->validate($taskData);	
+
+		if ($validationErrors) {
+			return new ServiceResult($validationErrors, null);
 		}
+
+		$this->repository->store($taskData);
 		
-		return $result;
+		return new ServiceResult(null, $taskData);
 	}
 
-	public function taskBodyUpdate(Uuid $uuid, string $body) : string
+	public function taskBodyUpdate(Uuid $uuid, string $body) : ServiceResult
 	{
 		$taskData = $this->repository->find($uuid);
 		$task = Task::taskCreate($taskData);
@@ -54,7 +50,7 @@ class TaskService
 		}
 	}
 
-	public function taskStatusUpdate(Uuid $uuid, string $status) : string
+	public function taskStatusUpdate(Uuid $uuid, string $status) : ServiceResult
 	{
 		$taskData = $this->repository->find($uuid);
 		$task = Task::createFromDTO($taskData);
@@ -64,20 +60,30 @@ class TaskService
 		return 'Статус задачи обновлен';
 	}
 
-	public function taskDelete(Uuid $uuid) : string
+	public function taskDelete(Uuid $uuid) : ServiceResult
 	{
 		$this->repository->delete($uuid);
 
 		return 'Задача удалена';
 	}
 
-	public function find(Uuid $uuid) : TaskData
-	{
-		return $this->repository->find($uuid);
+	public function find(Uuid $uuid) : ServiceResult
+	{	
+		$repositoryResult = $this->repository->find($uuid);
+		if ($repositoryResult->errors) {
+			return new ServiceResult($repositoryResult->errors, null);
+		}
+
+		return new ServiceResult(null, $repositoryResult->data);
 	}
 
-	public function findAll() : Array
+	public function findAll() : ServiceFindAllResult
 	{
-		return $this->repository->findAll();
+		$repositoryResult = $this->repository->findAll();
+		if ($repositoryResult->errors) {
+			return new ServiceFindAllResult($repositoryResult->errors, null);
+		}
+
+		return new ServiceFindAllResult(null, $repositoryResult->data);
 	}
 }

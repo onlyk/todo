@@ -2,16 +2,15 @@
 
 namespace App\Service;
 
-use App\Entity\TaskData;
-
-class ServiceResult{
-
+class ServiceFindAllResult
+{
 	public $errors;
 	public $data;
 
-	public function __construct(?array $errors, ?TaskData $data)
+	public function __construct(?array $errors, ?array $data)
 	{
 		$this->errors = $errors;
 		$this->data = $data;
 	}
 }
+

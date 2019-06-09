@@ -36,3 +36,11 @@ DTO между слоями
 
 Валидатор
 Обработка ошибок
+
+CRUD: 
+Create
+Reed
+Update
+Delete
+
+HTTP 200, 400, 404 и 500.

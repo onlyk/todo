@@ -5,6 +5,8 @@ namespace App\Repository;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 use App\Entity\TaskData;
+use App\Repository\RepositoryResult;
+use App\Repository\RepositoryFindAllResult;
 
 class TaskRepository
 {
@@ -15,31 +17,39 @@ class TaskRepository
 		$this->pdo = $connect;
 	}
 
-	public function find($uuid) : TaskData
+	public function find($uuid) : RepositoryResult
 	{
 		$stmt = $this->pdo->prepare("SELECT * FROM tasks WHERE uuid = :uuid");
 		$stmt->execute([':uuid' => $uuid]);
 		$data = $stmt->fetch(\PDO::FETCH_ASSOC);
-		$errors = [];
+
 		if (!$data) {
-			return new TaskData()
+			$errors[] = 'not found';
+			return new RepositoryResult($errors, null);
 		}
 
-		return new TaskData(
+		$taskData = new TaskData(
 			Uuid::fromString($data['uuid']),
 			$data['name'], 
 			$data['body'], 
-			$data['status'],
+			$data['status']
 		);
+
+		return new RepositoryResult(null, $taskData);
 	}
 
-	public function findAll() : Array
+	public function findAll() : RepositoryFindAllResult
 	{
 		$stmt = $this->pdo->prepare("SELECT * FROM tasks");
 		$stmt->execute();
-		$taskDataAll = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+		$data = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
-		return $taskDataAll;
+		if (!$data) {
+			$errors[] = 'not found';
+			return new RepositoryFindAllResult($errors, null);
+		}
+
+		return new RepositoryFindAllResult(null, $data);
 	}
 
 	public function store($taskData)
