@@ -40,6 +40,8 @@ class Task
         if (!$this->$errors) {
             $this->body = $body;
         }
+
+        return $this->errors;
     }
 
     public function taskStatusUpdate(string $status) : TaskData
@@ -56,6 +58,8 @@ class Task
         if (!$this->errors) {
             $this->status = $status;
         }
+
+        return $this->errors;
     }
 
     public function getTaskData() : TaskData
@@ -65,7 +69,6 @@ class Task
             $this->name,
             $this->body,
             $this->status,
-            $this->errors
         );
     }
 
